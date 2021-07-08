@@ -4,8 +4,8 @@ include "config.php";
 if (isset($_POST['beli'])) {
     $id = $_GET['id'];
     
-    $cek_id_user = mysqli_query($db, "SELECT * FROM db_user");
-    $row_id_user = mysqli_fetch_assoc($cek_id_user);
+    // $cek_id_user = mysqli_query($db, "SELECT * FROM db_user");
+    // $row_id_user = mysqli_fetch_assoc($cek_id_user);
 
     $cek_id_produk = mysqli_query($db, "SELECT * FROM PRODUCT WHERE ID_PRODUCT = $id");
     $row_id_produk = mysqli_fetch_assoc($cek_id_produk);

@@ -69,14 +69,14 @@ $row_nama = mysqli_fetch_assoc($query_name);
                 </ol>
             </nav>
         </div>
-
         <div class="container-fluid">
             <h3 class="footer mt-5 pb-5" style="position: relative; left: 300px;">
             <?= $row_nama['NAME'] ?>
+            <a href="../tambah-barang.php?id_category=<?= $id ?>">
+                <button type="button" class="btn btn-primary ms-5">Tambah</button>
+            </a>
             </h3>
         </div>
-
-
         <div class="row row-cols-1 row-cols-md-3 g-4">
             <?php 
             $query = mysqli_query($db, "SELECT * FROM product a JOIN category_product b ON a.id_product = b.id_product WHERE id_category = $id");
@@ -98,10 +98,10 @@ $row_nama = mysqli_fetch_assoc($query_name);
                                         style="font-size: 15px; text-decoration: none !important;">Rp.<?= $diskon ?></span>
                                 </div>
                             </div>
-                                <form action="../Keranjang/index.php?id=<?= $row['ID_PRODUCT'] ?>" method="post">
+                                <form action="../tambah-cart.php?id=<?= $row['ID_PRODUCT'] ?>" method="post">
                                     <div class="button">
-                                        <a href="../Keranjang/index.php?id=<?= $row['ID_PRODUCT'] ?>">
-                                            <button name="beli" type="submit" class="btn btn-primary mr-auto">Beli</button>
+                                        <a href="../tambah-cart.php?id=<?= $row['ID_PRODUCT'] ?>">
+                                            <button name="beli_barang" type="submit" class="btn btn-primary mr-auto">Beli</button>
                                         </a>
                                     </div>
                                 </form>

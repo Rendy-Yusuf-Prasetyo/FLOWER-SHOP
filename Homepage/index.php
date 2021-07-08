@@ -13,26 +13,31 @@ if (isset($_POST['submit'])) {
 
   $query_user = mysqli_query($db, "SELECT * FROM db_user");
   // $row = mysqli_fetch_assoc($query_user);
-  while ($row_user = mysqli_fetch_assoc($query_user)) {
-    if($email != $row_user['EMAIL']) {
-      echo "
-        <script>
-            alert('Email salah');
-        </script>
-      ";
-      header("Location: ../Login/login.php");
-    }
+  // while ($row_user = mysqli_fetch_assoc($query_user)) {
 
-    if($username == $row_user['FIRST_NAME'] && $password == $row_user['PASSWORD']){
-      // header("Location: ../Homepage/index.php");
-    }else{
-      echo "
-        <script>
-            alert('Username/Password salah');
-        </script>
-      ";
-      header("Location: ../Login/login.php");
-    }
+  // }
+  $row_user = mysqli_fetch_assoc($query_user);
+
+  if($email != $row['EMAIL']) {
+    echo "
+      <script>
+          alert('Email salah');
+      </script>
+    ";
+    return false;
+    header("Location: ../Login/login.php");
+  }
+
+  if($username == $row['FIRST_NAME'] && $password == $row_user['PASSWORD']){
+    // header("Location: ../Homepage/index.php");
+  }else{
+    echo "
+      <script>
+          alert('Username/Password salah');
+      </script>
+    ";
+    return false;
+    header("Location: ../Login/login.php");
   }
 }
 // $query = mysqli_query($db, "SELECT * FROM db_user WHERE EMAIL = '$email'");
@@ -259,7 +264,7 @@ $row = mysqli_fetch_assoc($query);
   <div class="container mt-3">
     <div class="row">
       <?php 
-        $query_top_seller = mysqli_query($db, "SELECT * FROM PRODUCT WHERE QUANTITY < 100001 ORDER BY QUANTITY DESC ");
+        $query_top_seller = mysqli_query($db, "SELECT * FROM PRODUCT WHERE QUANTITY < 100001 ORDER BY QUANTITY DESC LIMIT 4");
         while($row_query_top_Seller = mysqli_fetch_assoc($query_top_seller)) :
               $diskon = $row_query_top_Seller['PRICE'] - $row_query_top_Seller['DISCOUNT'];
               $persen = $row_query_top_Seller['PRICE'] / $row_query_top_Seller['DISCOUNT']/100;
