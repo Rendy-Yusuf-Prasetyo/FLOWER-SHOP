@@ -4,8 +4,11 @@ include "../config.php";
 $cek_cart_id = mysqli_query($db, "SELECT * FROM cart WHERE status = 'berjalan'");
 $row_cart = mysqli_fetch_assoc($cek_cart_id);
 $id_cart = $row_cart['ID_CART'];
-$cek_cart_item = mysqli_query($db, "SELECT b.NAME, b.QUANTITY, b.PRICE, a.QUANTITY as 'BANYAK', a.ID_CART_ITEM FROM cart_item a JOIN product b ON a.ID_PRODUCT = b.ID_PRODUCT WHERE a.ID_CART = '$id_cart'");
+// $cek_cart_item = mysqli_query($db, "SELECT b.NAME, b.QUANTITY, b.PRICE, a.QUANTITY as 'BANYAK', a.ID_CART_ITEM FROM cart_item a JOIN product b ON a.ID_PRODUCT = b.ID_PRODUCT WHERE a.ID_CART = '$id_cart'");
+$cek_cart_item = mysqli_query($db, "SELECT *, a.QUANTITY as 'BANYAK' FROM cart_item a JOIN product b ON a.ID_PRODUCT = b.ID_PRODUCT WHERE a.ID_CART = '$id_cart'");
 $row_cart_item = mysqli_fetch_assoc($cek_cart_item);
+$cek_quantity = mysqli_fetch_assoc(mysqli_query($db,"SELECT SUM(QUANTITY) 'BANYAK' FROM cart_item WHERE ID_CART = '$id_cart'"));
+$banyak_uang = mysqli_fetch_assoc(mysqli_query($db, "SELECT SUM(a.tmp_price) 'BANYAK' FROM cart_item a JOIN product b ON a.ID_PRODUCT = b.ID_PRODUCT WHERE a.ID_CART = '$id_cart'"));
 // $id_cart_item_2 = mysqli_fetch_assoc($cek_cart_item);
 // $id_cart_pake = $id_cart_item_2['ID_CART'];
 // $row_cart_item = mysqli_fetch_assoc($cek_cart_item);
@@ -31,8 +34,14 @@ if (isset($_POST['tambah'])) {
             $hitung_uang_dua = $hitung_uang_satu['PRICE'] * $row_tambah['QUANTITY'];
             echo "TOTAL UANG = " . $hitung_uang_dua;
             mysqli_query($db, "UPDATE cart_item SET  tmp_price = '$hitung_uang_dua' WHERE ID_CART_ITEM = '$id_tambah'");
-            $query_hitung = mysqli_fetch_assoc(mysqli_query($db, "SELECT tmp_price FROM cart_item WHERE ID_CART_ITEM = '$id_tambah'"));
-            echo "HASIL TOTAL = " . $query_hitung['tmp_price'];
+            // $query_hitung = mysqli_fetch_assoc(mysqli_query($db, "SELECT tmp_price FROM cart_item WHERE ID_CART_ITEM = '$id_tambah'"));
+            // echo "HASIL TOTAL = " . $query_hitung['tmp_price'];
+            echo "<br> TOTAL BANYAK = " . $cek_quantity['BANYAK'];
+            // echo "BANYAK UANG = " . $banyak_uang['BANYAK'];
+            $total_banyak = $banyak_uang['BANYAK'] - ($banyak_uang['BANYAK'] - ($cek_quantity['BANYAK'] * 1000));
+            echo "<br> BANYAK SEMUA = " .$total_banyak;
+                    // $total_banyak = $banyak_uang['BANYAK'] - $query_hitung['BANYAK'] / 0.05;
+                    mysqli_query($db, "UPDATE cart SET DELIVERY_CHARGE = '$total_banyak' WHERE ID_CART = '$id_cart'");
 }else if(isset($_POST['kurang'])){
     $id_kurang = $_GET['id_cart_item'];
     $query_kurang = mysqli_query($db, "SELECT * FROM cart_item WHERE ID_CART_ITEM = '$id_kurang'");
@@ -41,19 +50,39 @@ if (isset($_POST['tambah'])) {
     $hitung_kurang--;
     mysqli_query($db, "UPDATE cart_item SET QUANTITY = '$hitung_kurang' WHERE ID_CART_ITEM = '$id_kurang'");
         
-        $row_kurang_stok = mysqli_fetch_assoc(mysqli_query($db, "SELECT b.QUANTITY, b.ID_PRODUCT FROM cart_item a JOIN product b ON a.ID_PRODUCT = b.ID_PRODUCT WHERE ID_CART_ITEM = '$id_kurang'"));
+        $row_kurang_stok = mysqli_fetch_assoc(mysqli_query($db, "SELECT b.QUANTITY, b.ID_PRODUCT, a.QUANTITY 'BANYAK' FROM cart_item a JOIN product b ON a.ID_PRODUCT = b.ID_PRODUCT WHERE ID_CART_ITEM = '$id_kurang'"));
         $id_barang_kurang = $row_kurang_stok['ID_PRODUCT'];
         $stok = $row_kurang_stok['QUANTITY'];
-
+        $row_banyak = $row_kurang_stok['BANYAK'];
+        echo "QUANTITY = " .$row_kurang_stok['BANYAK'];
         $total_kurang = $stok + 1;
         mysqli_query($db, "UPDATE product SET QUANTITY = '$total_kurang' WHERE ID_PRODUCT = '$id_barang_kurang'");
 
             $hitung_uang_satu = mysqli_fetch_assoc(mysqli_query($db, "SELECT PRICE, QUANTITY FROM cart_item WHERE ID_CART_ITEM = '$id_kurang'"));
             $hitung_uang_dua = $hitung_uang_satu['PRICE'] / $row_kurang['QUANTITY'];
             echo "TOTAL UANG = " . $hitung_uang_dua;
-            mysqli_query($db, "UPDATE cart_item SET  tmp_price = '$hitung_uang_dua' WHERE ID_CART_ITEM = '$id_kurang'");
-            $query_hitung = mysqli_fetch_assoc(mysqli_query($db, "SELECT tmp_price FROM cart_item WHERE ID_CART_ITEM = '$id_kurang'"));
-            echo "HASIL TOTAL = " . $query_hitung['tmp_price'];
+            mysqli_query($db, "UPDATE cart_item SET tmp_price = '$hitung_uang_dua' WHERE ID_CART_ITEM = '$id_kurang'");
+            // $query_hitung = mysqli_fetch_assoc(mysqli_query($db, "SELECT tmp_price FROM cart_item WHERE ID_CART_ITEM = '$id_kurang'"));
+            // echo "HASIL TOTAL = " . $query_hitung['tmp_price'];
+            echo "<br> TOTAL BANYAK = " . $cek_quantity['BANYAK'];
+            // echo "BANYAK UANG = " . $banyak_uang['BANYAK'];
+            $total_banyak = $banyak_uang['BANYAK'] - ($banyak_uang['BANYAK'] - ($cek_quantity['BANYAK'] * 1000));
+            echo "<br> BANYAK SEMUA = " .$total_banyak;
+                    mysqli_query($db, "UPDATE cart SET DELIVERY_CHARGE = '$total_banyak' WHERE ID_CART = '$id_cart'");
+                    if($row_kurang_stok['BANYAK'] < 1){
+                        mysqli_query($db, "DELETE FROM cart_item WHERE ID_CART_ITEM = '$id_kurang'");
+                    }
+
+}else{
+    global $row_banyak, $id_kurang;
+    echo "<br> TOTAL BANYAK = " . $cek_quantity['BANYAK'];
+    // echo "BANYAK UANG = " . $banyak_uang['BANYAK'];
+    $total_banyak = $banyak_uang['BANYAK'] - ($banyak_uang['BANYAK'] - ($cek_quantity['BANYAK'] * 1000));
+    echo "<br> BANYAK SEMUA = " .$total_banyak;
+            mysqli_query($db, "UPDATE cart SET DELIVERY_CHARGE = '$total_banyak' WHERE ID_CART = '$id_cart'");
+            if($row_banyak < 1){
+                mysqli_query($db, "DELETE FROM cart_item WHERE ID_CART_ITEM = '$id_kurang'");
+            }
 }
 ?>
 
@@ -190,14 +219,11 @@ if (isset($_POST['tambah'])) {
                                     <td></td>
                                     <td></td>
                                     <td><strong>Total</strong></td>
-                                    <?php 
-                                        $banyak_uang = mysqli_fetch_assoc(mysqli_query($db, "SELECT SUM(a.tmp_price) as 'BANYAK' FROM cart_item a JOIN product b ON a.ID_PRODUCT = b.ID_PRODUCT WHERE a.ID_CART = '$id_cart'"));
-                                    ?>
                                     <td class="text-right"><strong>Rp.<?= $banyak_uang['BANYAK'] ?></strong></td>
                                 </tr>
                                 </tbody>
                             </table>
-                            <form action="../Checkout/index.php?id_cart=<?= $id_cart ?>" method="post">
+                            <form action="../checkout.php?id_cart=<?= $id_cart ?>" method="post">
                                 <div class="col-sm-12 col-m d-6 text-right">
                                     <button class="btn btn-lg btn-block btn-success text-uppercase" name="submit" type="submit" name="lanjutkan">Lanjutkan</button>
                                 </div>
