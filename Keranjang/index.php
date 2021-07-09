@@ -177,11 +177,11 @@ if (isset($_POST['tambah'])) {
                                 <?php 
 
                                 // WHERE ID_CART = '$id'
-                                $query = mysqli_query($db, "SELECT a.ID_CART_ITEM, b.NAME, b.QUANTITY, a.QUANTITY 'BANYAK', b.PRICE FROM cart_item a JOIN product b ON a.ID_PRODUCT = b.ID_PRODUCT WHERE ID_CART = '$id_cart'");
+                                $query = mysqli_query($db, "SELECT a.ID_CART_ITEM, b.NAME, b.QUANTITY, a.QUANTITY 'BANYAK', b.PRICE, b.gambar FROM cart_item a JOIN product b ON a.ID_PRODUCT = b.ID_PRODUCT WHERE ID_CART = '$id_cart'");
                                     while ($row = mysqli_fetch_assoc($query)) :
                                     ?>
                                     <tr>
-                                        <td><img src="https://dummyimage.com/50x50/55595c/fff" /> </td>
+                                        <td><img src="<?= "../foto/" . $row['gambar'] ?>" /> </td>
                                         <td><?= $row['NAME']; ?></td>
                                         <td><?= $row['QUANTITY']; ?></td>
                                         <td>

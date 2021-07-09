@@ -79,7 +79,8 @@ $query_user = mysqli_query($db, "SELECT FIRST_NAME FROM db_user");
         $query_update_barang_baru = mysqli_query($db, "SELECT * FROM product ORDER BY ID_PRODUCT DESC LIMIT 1");
         $row_query_update_barang_baru = mysqli_fetch_assoc($query_update_barang_baru);
         $id_barang = $row_query_update_barang_baru['ID_PRODUCT'];
-        mysqli_query($db, "INSERT INTO category_product VALUES('', '$id','$id_barang')");
+        $query =  mysqli_query($db, "INSERT INTO category_product VALUES('', '$id','$id_barang')");
+        header("Location: Homepage/index.php");
         // $row_id_barang = mysqli_fetch_assoc($cek_id_barang);
 
         // mysqli_query($db, "INSERT INTO BARANG VALUES('', '$nama', '$harga', '$stok', '$deksripsi')");
@@ -88,6 +89,9 @@ $query_user = mysqli_query($db, "SELECT FIRST_NAME FROM db_user");
         //         alert('Data sukses ditambahkan');
         //     </script>
         // ";
+        if ($query) {
+            
+        }
 
     }
 ?>

@@ -78,38 +78,48 @@ $user = mysqli_fetch_assoc(mysqli_query($db, "SELECT FIRST_NAME FROM db_user"));
         </div>
         <div class="row row-cols-1 row-cols-md-3 g-4">
             <?php 
-            $query = mysqli_query($db, "SELECT * FROM product a JOIN category_product b ON a.id_product = b.id_product WHERE id_category = $id");
+            $query = mysqli_query($db, "SELECT *, ROUND(a.DISCOUNT) 'DISCOUNT', a.ID_PRODUCT FROM product a JOIN category_product b ON a.id_product = b.id_product WHERE id_category = $id");
+            // $row_id_product = mysqli_fetch_assoc($query);
+            
+            // var_dump($id_product);
                 while($row = mysqli_fetch_assoc($query)) :
+                    $id_product = $row['ID_PRODUCT'];        
                     $diskon = $row['PRICE'] - $row['DISCOUNT'];
-                    $persen = $row['PRICE'] / $row['DISCOUNT']/100;
+                    $persen = $row['DISCOUNT'] / $row['PRICE'] * 100;
+                    mysqli_query($db, "UPDATE product SET tmp_discount = '$persen' WHERE ID_PRODUCT = '$id_product'");
+                    $query_diskon =  mysqli_query($db, "SELECT * FROM product WHERE ID_PRODUCT = '$id_product'");
+                    $row_diskon = mysqli_fetch_assoc($query_diskon);
+                    $persen_total = $row_diskon['tmp_discount'];
             ?>
-            <div class="col-lg-2 col-md-6">
+            <div class="col-lg-2">
                 <div class="col-md-3">
-                    <div class="card" style="width: 18rem; margin-left: 300px;">
-                        <img src="<?= "../foto/" . $row['gambar'] ?>" class="card-img-top" alt="ini gambar" width="50px" height="200px">
-                        <div class="card-body">
-                            <h5 class="card-title"><?= $row['NAME'] ?></h5>
-                            <div class="d-flex flex-row bd-highlight mb-3">
-                                <div class="p-2 bd-highlight">
-                                    <h6 style="font-size: 15px; text-decoration:line-through">Rp.<?= $row['PRICE'] ?></h6>
-                                </div>
-                                <div class="p-2 bd-highlight" style="margin-top: -4px;"><span
-                                        style="font-size: 18px; text-decoration: none !important;">Rp.<?= $diskon ?></span>
-                                </div>
-                            </div>
-                                <form action="../tambah-cart.php?id=<?= $row['ID_PRODUCT'] ?>" method="post">
-                                    <div class="button">
-                                        <a href="../tambah-cart.php?id=<?= $row['ID_PRODUCT'] ?>">
-                                        <button name="hapus_keranjang" type="submit" class="btn btn-danger ps-3 pe-3" style="float: right; margin-top: -10px; margin-left: 10px;">Hapus</button>
-                                            <button name="tmbh_keranjang" type="submit" class="btn btn-primary ps-3 pe-3" style="float: right; margin-top: -10px;">Beli</button>
-                                        </a>
+                    <a href="">
+                        <div class="card" style="width: 300px; margin-left: 300px;">
+                            <img src="<?= "../foto/" . $row['gambar'] ?>" class="card-img-top" alt="ini gambar" width="50px" height="200px">
+                            <div class="card-body">
+                                <h5 class="card-title"><?= $row['NAME'] ?></h5>
+                                <div class="d-flex flex-row bd-highlight mb-3">
+                                    <div class="p-2 bd-highlight">
+                                        <h6 style="font-size: 15px; text-decoration:line-through">Rp.<?= $row['PRICE'] ?></h6>
                                     </div>
-                                </form>
-                            <div class="badge bg-primary text-wrap ml-auto" style="font-size: 15px;">
-                                <?= $persen ?>% Off
+                                    <div class="p-2 bd-highlight" style="margin-top: -4px;"><span
+                                            style="font-size: 18px; text-decoration: none !important;">Rp.<?= $diskon ?></span>
+                                    </div>
+                                </div>
+                                    <form action="../tambah-cart.php?id=<?= $row['ID_PRODUCT'] ?>" method="post">
+                                        <div class="button">
+                                            <!-- <a href="../tambah-cart.php?id=<?= $row['ID_PRODUCT'] ?>"> -->
+                                            <button name="hapus_keranjang" type="submit" class="btn btn-danger ps-3 pe-3" style="float: right; margin-top: -10px; margin-left: 10px;">Hapus</button>
+                                                <button name="tmbh_keranjang" type="submit" class="btn btn-primary ps-3 pe-3" style="float: right; margin-top: -10px;">Beli</button>
+                                            <!-- </a> -->
+                                        </div>
+                                    </form>
+                                <div class="badge bg-primary text-wrap ml-auto" >
+                                    <?= $persen_total ?>% Off
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
             </div>
             <?php 

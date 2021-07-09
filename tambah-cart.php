@@ -78,12 +78,32 @@
                 }
             }
         }elseif(isset($_POST['hapus_keranjang'])){
-            // AMBIL ID_CART_ITEM = ID_PRODUCT
-            // SAMAKAN ID_PRODUCT = ID_CATEGORY_PRODUCT
-            // HAPUS ID_CATEGORY PRODUCT
-            // HAPUS PRODUK
+            $id = $_GET['id'];
+            $query = mysqli_query($db, "DELETE FROM category_product WHERE ID_PRODUCT = '$id'");
+            $query2 = mysqli_query($db, "DELETE FROM product WHERE ID_PRODUCT = '$id'");
+            if ($query2) {
+                echo "
+                    <script>
+                        alert('Hapus PRODUK Sukses');
+                    </script>
+                ";
+            }
+            if ($query) {
+                echo "
+                    <script>
+                        alert('Hapus CATEGORY Sukses');
+                    </script>
+                ";
+                // header("Location: Homepage/index.php");
+            }else{
+                echo "
+                    <script>
+                        alert('Hapus Gagal');
+                    </script>
+                ";
+            }
         }
-
+        // header("Location: Homepage/index.php");
         
         // }
 
