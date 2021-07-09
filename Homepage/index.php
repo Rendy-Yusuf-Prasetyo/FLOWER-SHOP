@@ -91,7 +91,7 @@ $row = mysqli_fetch_assoc($query);
         <input class="form-control me-2" type="Cari Disini" placeholder="Cari Disini" aria-label="Cari">
         <button class="btn btn-outline-success" type="submit" style="width: 200px;">Cari</button>
         <img src="./asset/icon/keranjang.jpeg" alt="" class="image" style="margin-left: 20px; width:25px; height:25px;">
-        <i class="bx bx-chevron-right"></i> <a href="#" style="margin-left: 10px;"> Keranjang</a>
+        <i class="bx bx-chevron-right"></i> <a href="../checkout.php" style="margin-left: 10px;"> Keranjang</a>
         <p style="margin-left: 30px;"> |</p>
         <img src="./asset/icon/user.jpeg" alt="" class="image" style="margin-left: 20px; width:25px; height:25px;">
         <i class="bx bx-chevron-right"></i> <a href="#" style="margin-left: 10px;"> <?= $row['FIRST_NAME'] ?></a>
@@ -112,7 +112,6 @@ $row = mysqli_fetch_assoc($query);
           <a class="nav-link active" aria-current="page" href="../PRODUCT/index.php?id=3001">BUNGA POT BESAR</a>
           <a class="nav-link active" aria-current="page" href="../PRODUCT/index.php?id=3002">BUNGA POT KECIL</a>
           <a class="nav-link active" aria-current="page" href="../PRODUCT/index.php?id=3003">POHON HIAS</a>
-          <a class="nav-link active" aria-current="page" href="#">PROMO</a>
         </div>
       </div>
     </div>

@@ -1,7 +1,9 @@
 <?php 
 include "../bima/config.php";
 
-
+$query_user = mysqli_query($db, "SELECT FIRST_NAME FROM db_user");
+        $row = mysqli_fetch_assoc($query_user);
+        
     if (isset($_POST['simpan'])) {
         $id = $_GET['id_category'];
         $nama = $_POST['nama'];
@@ -43,7 +45,7 @@ include "../bima/config.php";
                 </script>
             ";
         }
-        move_uploaded_file($file_temp, 'gambar/' . $nama_foto);
+        move_uploaded_file($file_temp, 'foto/' . $nama_foto);
         $cek_nama_barang = mysqli_query($db, "SELECT * FROM product");
                 
         while($row_nama_barang = mysqli_fetch_assoc($cek_nama_barang)){
@@ -86,7 +88,6 @@ include "../bima/config.php";
         //         alert('Data sukses ditambahkan');
         //     </script>
         // ";
-        
 
     }
 ?>
@@ -97,11 +98,46 @@ include "../bima/config.php";
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <?php 
-        include "bootstrap.php";
+        // include "bootstrap.php";
     ?>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+  <link rel="stylesheet" href="asset/css/text.css">
     <title>Document</title>
 </head>
 <body>
+<nav class="navbar navbar-light bg-light">
+    <div class="container-fluid bg1">
+      <img src="./asset/icon/logo.jpeg" alt="" class="align-self-center rounded-circle" width="100px" height="100px"
+        style="margin: 0,1% 0; position:relative; left:200px;">
+      <form class="d-flex" style="position:relative; right:80px">
+        
+        <img src="asset/icon/keranjang.jpeg" alt="" class="image" style="margin-left: 20px; width:25px; height:25px;">
+        <i class="bx bx-chevron-right"></i> <a href="checkout.php" style="margin-left: 10px;"> Keranjang</a>
+        <p style="margin-left: 30px;"> |</p>
+        <img src="asset/icon/user.png" alt="" class="image" style="margin-left: 20px; width:25px; height:25px;">
+        <i class="bx bx-chevron-right"></i> <a href="#" style="margin-left: 10px;"><?= $row['FIRST_NAME'] ?></a>
+        <p style="margin-left: 30px;"> |</p>
+        <i class="bx bx-chevron-right"></i> <a class="fw-bold" href="#" style="margin-left: 20px;"> Bahasa</a>
+      </form>
+    </div>
+  </nav>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+        aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav mx-auto">
+          <a class="nav-link active" aria-current="page" href="../bima/Homepage/index.php">HOME</a>
+          <a class="nav-link active" aria-current="page" href="../bima/PRODUCT/index.php?id=3001">BUNGA POT BESAR</a>
+          <a class="nav-link active" aria-current="page" href="../bima/PRODUCT/index.php?id=3002">BUNGA POT KECIL</a>
+          <a class="nav-link active" aria-current="page" href="../bima/PRODUCT/index.php?id=3003">POHON HIAS</a>
+        </div>
+      </div>
+    </div>
+  </nav>
 <div class="container">
         <div class="row">
             <form action="" method="post" enctype="multipart/form-data">
@@ -136,6 +172,8 @@ include "../bima/config.php";
             </form>
         </div>
     </div>
-  </body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+    crossorigin="anonymous"></script>
 </body>
 </html>

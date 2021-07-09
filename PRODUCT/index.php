@@ -5,6 +5,7 @@ $id = $_GET['id'];
 
 $query_name = mysqli_query($db, "SELECT * FROM CATEGORY WHERE ID_CATEGORY = '$id'");
 $row_nama = mysqli_fetch_assoc($query_name);
+$user = mysqli_fetch_assoc(mysqli_query($db, "SELECT FIRST_NAME FROM db_user"));
 ?>
 <!doctype html>
 <html lang="en">
@@ -30,10 +31,10 @@ $row_nama = mysqli_fetch_assoc($query_name);
                 <input class="form-control me-2" type="Cari Disini" placeholder="Cari Disini" aria-label="Cari">
                 <button class="btn btn-outline-success" type="submit" style="width: 200px;">Cari</button>
                 <img src="./asset/icon/keranjang.jpeg" alt="" class="image" style="margin-left: 20px; width:25px; height:25px;">
-                <i class="bx bx-chevron-right"></i> <a href="#" style="margin-left: 10px;"> Keranjang</a>
+                <i class="bx bx-chevron-right"></i> <a href="../Keranjang/index.php" style="margin-left: 10px;"> Keranjang</a>
                 <p style="margin-left: 30px;"> |</p>
                 <img src="./asset/icon/user.jpeg" alt="" class="image" style="margin-left: 20px; width:25px; height:25px;">
-                <i class="bx bx-chevron-right"></i> <a href="#" style="margin-left: 10px;"> User</a>
+                <i class="bx bx-chevron-right"></i> <a href="#" style="margin-left: 10px;"><?= $user['FIRST_NAME'] ?></a>
                 <p style="margin-left: 30px;"> |</p>
                 <i class="bx bx-chevron-right"></i> <a class="fw-bold" href="#" style="margin-left: 20px;"> Bahasa</a>
             </form>
@@ -51,7 +52,6 @@ $row_nama = mysqli_fetch_assoc($query_name);
                 <a class="nav-link active" aria-current="page" href="../PRODUCT/index.php?id=3001">BUNGA POT BESAR</a>
                 <a class="nav-link active" aria-current="page" href="../PRODUCT/index.php?id=3002">BUNGA POT KECIL</a>
                 <a class="nav-link active" aria-current="page" href="../PRODUCT/index.php?id=3003">POHON HIAS</a>
-                <a class="nav-link active" aria-current="page" href="#">PROMO</a>
                 </div>
             </div>
         </div>
@@ -100,6 +100,7 @@ $row_nama = mysqli_fetch_assoc($query_name);
                                 <form action="../tambah-cart.php?id=<?= $row['ID_PRODUCT'] ?>" method="post">
                                     <div class="button">
                                         <a href="../tambah-cart.php?id=<?= $row['ID_PRODUCT'] ?>">
+                                        <button name="hapus_keranjang" type="submit" class="btn btn-danger ps-3 pe-3" style="float: right; margin-top: -10px; margin-left: 10px;">Hapus</button>
                                             <button name="tmbh_keranjang" type="submit" class="btn btn-primary ps-3 pe-3" style="float: right; margin-top: -10px;">Beli</button>
                                         </a>
                                     </div>

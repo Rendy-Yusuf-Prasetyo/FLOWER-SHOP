@@ -1,6 +1,7 @@
 <?php 
 include "../config.php";
 
+$user = mysqli_fetch_assoc(mysqli_query($db, "SELECT FIRST_NAME FROM db_user"));
 $cek_cart_id = mysqli_query($db, "SELECT * FROM cart WHERE status = 'berjalan'");
 $row_cart = mysqli_fetch_assoc($cek_cart_id);
 $id_cart = $row_cart['ID_CART'];
@@ -115,7 +116,7 @@ if (isset($_POST['tambah'])) {
                 <p style="margin-left: 30px;"> |</p>
                 <img src="./asset/icon/user.jpeg" alt="" class="image"
                     style="margin-left: 20px; width:25px; height:25px;">
-                <i class="bx bx-chevron-right"></i> <a href="#" style="margin-left: 10px;"> User</a>
+                <i class="bx bx-chevron-right"></i> <a href="#" style="margin-left: 10px;"><?= $user['FIRST_NAME'] ?></a>
                 <p style="margin-left: 30px;"> |</p>
                 <i class="bx bx-chevron-right"></i> <a class="fw-bold" href="#" style="margin-left: 20px;"> Bahasa</a>
             </form>
@@ -129,12 +130,10 @@ if (isset($_POST['tambah'])) {
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav mx-auto custom2">
-                    <a class="nav-link active" aria-current="page" href="../Homepage/index.html">HOME</a>
-                    <a class="nav-link active" aria-current="page" href="#">BUNGA POT BESAR</a>
-                    <a class="nav-link active" aria-current="page" href="../PRODUCT/index.html">BUNGA POT KECIL</a>
-                    <a class="nav-link active" aria-current="page" href="#">POHON HIAS</a>
-                    <a class="nav-link active" aria-current="page" href="#">BUNGA HIAS TANGKAI</a>
-                    <a class="nav-link active" aria-current="page" href="#">PROMO</a>
+                <a class="nav-link active" aria-current="page" href="../Homepage/index.php">HOME</a>
+                <a class="nav-link active" aria-current="page" href="../PRODUCT/index.php?id=3001">BUNGA POT BESAR</a>
+                <a class="nav-link active" aria-current="page" href="../PRODUCT/index.php?id=3002">BUNGA POT KECIL</a>
+                <a class="nav-link active" aria-current="page" href="../PRODUCT/index.php?id=3003">POHON HIAS</a>
                 </div>
             </div>
         </div>
@@ -178,7 +177,8 @@ if (isset($_POST['tambah'])) {
                                 <?php 
 
                                 // WHERE ID_CART = '$id'
-                                    while ($row = mysqli_fetch_assoc($cek_cart_item)) : 
+                                $query = mysqli_query($db, "SELECT a.ID_CART_ITEM, b.NAME, b.QUANTITY, a.QUANTITY 'BANYAK', b.PRICE FROM cart_item a JOIN product b ON a.ID_PRODUCT = b.ID_PRODUCT WHERE ID_CART = '$id_cart'");
+                                    while ($row = mysqli_fetch_assoc($query)) :
                                     ?>
                                     <tr>
                                         <td><img src="https://dummyimage.com/50x50/55595c/fff" /> </td>
@@ -203,12 +203,6 @@ if (isset($_POST['tambah'])) {
                                         <!-- <td></td> -->
                                         <td></td>
                                     </tr>
-                                    <!-- <td class="text-right">
-                                            <a href="delete-barang.php?id_cart_item=<?= $row['ID_BARANG'] ?>">
-                                                <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> </button> 
-                                            </a>
-                                        </td> -->
-                                    
                                     <?php 
                                         
                                     endwhile;

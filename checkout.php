@@ -3,7 +3,7 @@ include "config.php";
 
 $id = $_GET['id_cart'];
 $query = mysqli_fetch_assoc(mysqli_query($db, "SELECT * FROM CART WHERE ID_CART = '$id'"));
-
+// echo "HARGA". $query['PRICE'];
   if (isset($_POST['submit'])) {
       $tambah_uang = mysqli_fetch_assoc(mysqli_query($db, "SELECT sum(tmp_price) 'BANYAK' FROM cart_item WHERE ID_CART = '$id'"));
       $uang = $tambah_uang['BANYAK'];
