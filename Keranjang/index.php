@@ -1,30 +1,60 @@
 <?php 
-include "config.php";
+include "../config.php";
 
-if (isset($_POST['beli'])) {
-    $id = $_GET['id'];
-    
-    // $cek_id_user = mysqli_query($db, "SELECT * FROM db_user");
-    // $row_id_user = mysqli_fetch_assoc($cek_id_user);
+$cek_cart_id = mysqli_query($db, "SELECT * FROM cart WHERE status = 'berjalan'");
+$row_cart = mysqli_fetch_assoc($cek_cart_id);
+$id_cart = $row_cart['ID_CART'];
+$cek_cart_item = mysqli_query($db, "SELECT b.NAME, b.QUANTITY, b.PRICE, a.QUANTITY as 'BANYAK', a.ID_CART_ITEM FROM cart_item a JOIN product b ON a.ID_PRODUCT = b.ID_PRODUCT WHERE a.ID_CART = '$id_cart'");
+$row_cart_item = mysqli_fetch_assoc($cek_cart_item);
+// $id_cart_item_2 = mysqli_fetch_assoc($cek_cart_item);
+// $id_cart_pake = $id_cart_item_2['ID_CART'];
+// $row_cart_item = mysqli_fetch_assoc($cek_cart_item);
+$quantity = 1;
+$ambil_quantity = mysqli_query($db, "SELECT * FROM cart_item WHERE a.ID_CART = '$id_cart'");
 
-    $cek_id_produk = mysqli_query($db, "SELECT * FROM PRODUCT WHERE ID_PRODUCT = $id");
-    $row_id_produk = mysqli_fetch_assoc($cek_id_produk);
-    $price_cart = $row_id_produk['PRICE'];
+if (isset($_POST['tambah'])) {
+    $id_tambah = $_GET['id_cart_item'];
+    $query_tambah = mysqli_query($db, "SELECT * FROM cart_item WHERE ID_CART_ITEM = '$id_tambah'");
+    $row_tambah = mysqli_fetch_assoc($query_tambah);
+    $hitung_tambah = $row_tambah['QUANTITY'];
+    $hitung_tambah++;
+    mysqli_query($db, "UPDATE cart_item SET QUANTITY = '$hitung_tambah' WHERE ID_CART_ITEM = '$id_tambah'");
+        
+        $row_tambah_stok = mysqli_fetch_assoc(mysqli_query($db, "SELECT b.QUANTITY, b.ID_PRODUCT FROM cart_item a JOIN product b ON a.ID_PRODUCT = b.ID_PRODUCT WHERE ID_CART_ITEM = '$id_tambah'"));
+        $id_barang_tambah = $row_tambah_stok['ID_PRODUCT'];
+        $stok = $row_tambah_stok['QUANTITY'];
 
-    $cek_id_cart = mysqli_query($db, "SELECT * FROM CART");
-    while($row_cek_id_cart = mysqli_fetch_assoc($cek_id_cart)){
-        if ($id !== $row_cek_id_cart['ID_USER']) {
-            $id_user = $row_id_user['ID_USER'];
-            mysqli_query($db, "INSERT INTO CART VALUES('','$id_user','','$price_cart','400','')");
-            break;
-        }
-        // KALO GAADA ID NYA BRARTI NAMBAH, KALO NULL brarti NAMBAH, KALO UDA ADA UPDATE QUANTITY
-    }
-    
+        $total_tambah = $stok - 1;
+        mysqli_query($db, "UPDATE product SET QUANTITY = '$total_tambah' WHERE ID_PRODUCT = '$id_barang_tambah'");
 
-    $query_tambah_keranjang = mysqli_query($db, "INSERT INTO CART_ITEM VALUES('','','','','','')");
+            $hitung_uang_satu = mysqli_fetch_assoc(mysqli_query($db, "SELECT PRICE, QUANTITY FROM cart_item WHERE ID_CART_ITEM = '$id_tambah'"));
+            $hitung_uang_dua = $hitung_uang_satu['PRICE'] * $row_tambah['QUANTITY'];
+            echo "TOTAL UANG = " . $hitung_uang_dua;
+            mysqli_query($db, "UPDATE cart_item SET  tmp_price = '$hitung_uang_dua' WHERE ID_CART_ITEM = '$id_tambah'");
+            $query_hitung = mysqli_fetch_assoc(mysqli_query($db, "SELECT tmp_price FROM cart_item WHERE ID_CART_ITEM = '$id_tambah'"));
+            echo "HASIL TOTAL = " . $query_hitung['tmp_price'];
+}else if(isset($_POST['kurang'])){
+    $id_kurang = $_GET['id_cart_item'];
+    $query_kurang = mysqli_query($db, "SELECT * FROM cart_item WHERE ID_CART_ITEM = '$id_kurang'");
+    $row_kurang = mysqli_fetch_assoc($query_kurang);
+    $hitung_kurang = $row_kurang['QUANTITY'];
+    $hitung_kurang--;
+    mysqli_query($db, "UPDATE cart_item SET QUANTITY = '$hitung_kurang' WHERE ID_CART_ITEM = '$id_kurang'");
+        
+        $row_kurang_stok = mysqli_fetch_assoc(mysqli_query($db, "SELECT b.QUANTITY, b.ID_PRODUCT FROM cart_item a JOIN product b ON a.ID_PRODUCT = b.ID_PRODUCT WHERE ID_CART_ITEM = '$id_kurang'"));
+        $id_barang_kurang = $row_kurang_stok['ID_PRODUCT'];
+        $stok = $row_kurang_stok['QUANTITY'];
+
+        $total_kurang = $stok + 1;
+        mysqli_query($db, "UPDATE product SET QUANTITY = '$total_kurang' WHERE ID_PRODUCT = '$id_barang_kurang'");
+
+            $hitung_uang_satu = mysqli_fetch_assoc(mysqli_query($db, "SELECT PRICE, QUANTITY FROM cart_item WHERE ID_CART_ITEM = '$id_kurang'"));
+            $hitung_uang_dua = $hitung_uang_satu['PRICE'] / $row_kurang['QUANTITY'];
+            echo "TOTAL UANG = " . $hitung_uang_dua;
+            mysqli_query($db, "UPDATE cart_item SET  tmp_price = '$hitung_uang_dua' WHERE ID_CART_ITEM = '$id_kurang'");
+            $query_hitung = mysqli_fetch_assoc(mysqli_query($db, "SELECT tmp_price FROM cart_item WHERE ID_CART_ITEM = '$id_kurang'"));
+            echo "HASIL TOTAL = " . $query_hitung['tmp_price'];
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -95,155 +125,103 @@ if (isset($_POST['beli'])) {
         <br>
         <h4 style="margin-left:300px;">CART</h4>
 
-        <br>
+        <div class="container mb-4">
+            <div class="row">
+                <div class="col-12">
+                    <div class="table-responsive">
+                        <!-- <form action="cart_item.php" method="post"> -->
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col"> </th>
+                                        <th scope="col">Product</th>
+                                        <th scope="col">Available</th>
+                                        <th scope="col" class="text-center">Quantity</th>
+                                        <!-- <th></th> -->
+                                        <th scope="col">Aksi</th>
+                                        
+                                        
+                                        <th scope="col" class="text-right">Price</th>
+                                        <th> </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <?php 
 
-        <div class="container"
-            style="max-width: 800px; max-height: 1250px; margin-left: 300px; background-color: white;">
-            <br>
-            <div class="contariner" style="width: 10px;">
-                <img src="./asset/icon/logo.jpeg" style="width:150px; margin-left: 20px;">
-                <h5 style="margin-left: 180px; margin-top: -130px; width: 200px;">Bunga Sepatu</h5>
-            </div>
-            <div class="p-2 bd-highlight">
-                <h6 style="font-size: 15px; text-decoration:line-through; margin-left: 175px;">Rp.50.000.00</h6>
-            </div>
-            <div class="p-2 bd-highlight" style="margin-top: -46px;"><span
-                    style="font-size: 15px; text-decoration: none !important; margin-left: 270px;"> Rp. 35.000,00</span>
-                <button style="width: 150px; height: 40px; margin-left: 150px; margin-top: -350px;">Remove</button>
-            </div>
-            <div class="d-grid gap-2 d-md-block" style="margin-left: 180px;">
-                <button class="btn btn-secondary" type="button" style="width: 40px;">-</button>
-                <div class="border border-dark"
-                    style="width: 40px; height: 38px; margin-left: 45px; margin-top: -38px;">
-                    <span class="badge bg-light text-dark" style="width: 35px; height: 35px; font-size: 20px">1</span>
+                                // WHERE ID_CART = '$id'
+                                    while ($row = mysqli_fetch_assoc($cek_cart_item)) : 
+                                    ?>
+                                    <tr>
+                                        <td><img src="https://dummyimage.com/50x50/55595c/fff" /> </td>
+                                        <td><?= $row['NAME']; ?></td>
+                                        <td><?= $row['QUANTITY']; ?></td>
+                                        <td>
+                                            <!-- <input class="form-control" type="text" name="banyak" id="banyak" /> -->
+                                            <?= $row['BANYAK'] ?>
+                                        </td>
+                                        <form action="index.php?id_cart_item=<?= $row['ID_CART_ITEM'] ?>" method="post">
+                                            <td>
+                                                <a href="index.php?id_cart_item=<?= $row['ID_CART_ITEM'] ?>">
+                                                    <button type="submit" class="btn btn-primary" name="tambah">+</button>
+                                                </a>
+                                                <a href="index.php?id_cart_item=<?= $row['ID_CART_ITEM'] ?>">
+                                                    <button type="submit" class="btn btn-danger" name="kurang" style="margin-left: 10px;">-</button>
+                                                </a>
+                                            </td>
+                                        </form>
+                                        <!-- <td><input type="text" name="quantity"></td> -->
+                                        <td class="text-right">Rp.<?= $row['PRICE'] ?></td>
+                                        <!-- <td></td> -->
+                                        <td></td>
+                                    </tr>
+                                    <!-- <td class="text-right">
+                                            <a href="delete-barang.php?id_cart_item=<?= $row['ID_BARANG'] ?>">
+                                                <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> </button> 
+                                            </a>
+                                        </td> -->
+                                    
+                                    <?php 
+                                        
+                                    endwhile;
+                                    ?>
+                                    <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><strong>Total</strong></td>
+                                    <?php 
+                                        $banyak_uang = mysqli_fetch_assoc(mysqli_query($db, "SELECT SUM(a.tmp_price) as 'BANYAK' FROM cart_item a JOIN product b ON a.ID_PRODUCT = b.ID_PRODUCT WHERE a.ID_CART = '$id_cart'"));
+                                    ?>
+                                    <td class="text-right"><strong>Rp.<?= $banyak_uang['BANYAK'] ?></strong></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <form action="../Checkout/index.php?id_cart=<?= $id_cart ?>" method="post">
+                                <div class="col-sm-12 col-m d-6 text-right">
+                                    <button class="btn btn-lg btn-block btn-success text-uppercase" name="submit" type="submit" name="lanjutkan">Lanjutkan</button>
+                                </div>
+                            </form>
+                        <!-- </form> -->
+                    </div>
                 </div>
-                <button class="btn btn-secondary" type="button"
-                    style="width: 40px; margin-left: 91px; margin-top: -67px;">+</button>
+                <!-- <div class="col mb-2">
+                    <div class="row">
+                        <!-- <div class="col-sm-12  col-md-6">
+                            <a href="pilih.php"><button class="btn btn-block btn-light">Continue Shopping</button>
+                        </a>    
+                        </div> -->
+                        <!-- <div class="col-sm-12 col-md-6 text-right">
+                            <a href="checkout.php?id_cart=<?= $row_id_cart['ID_CART'] ?>">
+                                <button class="btn btn-lg btn-block btn-success text-uppercase"  type="button" name="lanjutkan">Lanjutkan</button>
+                            </a>
+                        </div> -->
+                    </div>
+                </div> -->
             </div>
-
-            <br>
-
-            <div class="contariner" style="width: 10px;">
-                <img src="./asset/icon/logo.jpeg" style="width:150px; margin-left: 20px;">
-                <h5 style="margin-left: 180px; margin-top: -130px; width: 200px;">Bunga Sepatu</h5>
-            </div>
-            <div class="p-2 bd-highlight">
-                <h6 style="font-size: 15px; text-decoration:line-through; margin-left: 175px;">Rp.50.000.00</h6>
-            </div>
-            <div class="p-2 bd-highlight" style="margin-top: -46px;"><span
-                    style="font-size: 15px; text-decoration: none !important; margin-left: 270px;"> Rp. 35.000,00</span>
-                <button style="width: 150px; height: 40px; margin-left: 150px; margin-top: -350px;">Remove</button>
-            </div>
-            <div class="d-grid gap-2 d-md-block" style="margin-left: 180px;">
-                <button class="btn btn-secondary" type="button" style="width: 40px;">-</button>
-                <div class="border border-dark"
-                    style="width: 40px; height: 38px; margin-left: 45px; margin-top: -38px;">
-                    <span class="badge bg-light text-dark" style="width: 35px; height: 35px; font-size: 20px">1</span>
-                </div>
-                <button class="btn btn-secondary" type="button"
-                    style="width: 40px; margin-left: 91px; margin-top: -67px;">+</button>
-            </div>
-
-            <br>
-
-            <div class="contariner" style="width: 10px;">
-                <img src="./asset/icon/logo.jpeg" style="width:150px; margin-left: 20px;">
-                <h5 style="margin-left: 180px; margin-top: -130px; width: 200px;">Bunga Sepatu</h5>
-            </div>
-            <div class="p-2 bd-highlight">
-                <h6 style="font-size: 15px; text-decoration:line-through; margin-left: 175px;">Rp.50.000.00</h6>
-            </div>
-            <div class="p-2 bd-highlight" style="margin-top: -46px;"><span
-                    style="font-size: 15px; text-decoration: none !important; margin-left: 270px;"> Rp. 35.000,00</span>
-                <button style="width: 150px; height: 40px; margin-left: 150px; margin-top: -350px;">Remove</button>
-            </div>
-            <div class="d-grid gap-2 d-md-block" style="margin-left: 180px;">
-                <button class="btn btn-secondary" type="button" style="width: 40px;">-</button>
-                <div class="border border-dark"
-                    style="width: 40px; height: 38px; margin-left: 45px; margin-top: -38px;">
-                    <span class="badge bg-light text-dark" style="width: 35px; height: 35px; font-size: 20px">1</span>
-                </div>
-                <button class="btn btn-secondary" type="button"
-                    style="width: 40px; margin-left: 91px; margin-top: -67px;">+</button>
-            </div>
-
-            <br>
-
-            <div class="contariner" style="width: 10px;">
-                <img src="./asset/icon/logo.jpeg" style="width:150px; margin-left: 20px;">
-                <h5 style="margin-left: 180px; margin-top: -130px; width: 200px;">Bunga Sepatu</h5>
-            </div>
-            <div class="p-2 bd-highlight">
-                <h6 style="font-size: 15px; text-decoration:line-through; margin-left: 175px;">Rp.50.000.00</h6>
-            </div>
-            <div class="p-2 bd-highlight" style="margin-top: -46px;"><span
-                    style="font-size: 15px; text-decoration: none !important; margin-left: 270px;"> Rp. 35.000,00</span>
-                <button style="width: 150px; height: 40px; margin-left: 150px; margin-top: -350px;">Remove</button>
-            </div>
-            <div class="d-grid gap-2 d-md-block" style="margin-left: 180px;">
-                <button class="btn btn-secondary" type="button" style="width: 40px;">-</button>
-                <div class="border border-dark"
-                    style="width: 40px; height: 38px; margin-left: 45px; margin-top: -38px;">
-                    <span class="badge bg-light text-dark" style="width: 35px; height: 35px; font-size: 20px">1</span>
-                </div>
-                <button class="btn btn-secondary" type="button"
-                    style="width: 40px; margin-left: 91px; margin-top: -67px;">+</button>
-            </div>
-
-            <br>
+</div>
+    </div>
         </div>
-
-        <div class="container"
-            style="max-width: 400px; max-height: 1250px; margin-left: 1140px; margin-top: -755px; background-color: white;">
-            <br>
-            <a style="font-size: 20px; margin-left: 10px;">
-                Add Promo Code
-            </a>
-            <div style="width: 350px; margin-bottom: 5px; margin-left: 15px;">
-                <br>
-                <input type="text" class="form-control">
-            </div>
-
-            <br>
-
-            <button
-                style="width: 100px; height: 40px; margin-left: 20px; background-color: black; color : white;">ADD</button>
-
-            <div style="margin-top: 20px;">
-                <a style="margin-left: 20px;">Sunmmary</a>
-            </div>
-
-            <div style="margin-top: 25px;">
-                <a style="font-size: 13px; margin-left: 20px;">Price (4 items)</a>
-                <span style="font-size: 15px; text-decoration: none !important; margin-left: 150px; font-size: 13px;">
-                    Rp. 35.000,00</span>
-            </div>
-
-            <div style="margin-top: 25px;">
-                <a style="font-size: 13px; margin-left: 20px;">Delivery Charge</a>
-                <span style="font-size: 15px; text-decoration: none !important; margin-left: 150px; font-size: 13px;">
-                    Rp.7.500,00</span>
-            </div>
-
-            <div style="margin-top: 25px;">
-                <a style="font-size: 13px; margin-left: 20px;">Total Price</a>
-                <span style="font-size: 15px; text-decoration: none !important; margin-left: 175px; font-size: 13px;">
-                    Rp. 42.500,00</span>
-            </div>
-
-            <div class="border border-dark" style="width: 120px; height: 40px; margin-left: 40px; margin-top: 50px;">
-                <button class="btn btn-light" type="button" style="width: 110px; margin-left: 5px;">Continue</button>
-            </div>
-
-            <div>
-                <button class="btn btn-dark" type="button"
-                    style="width: 120px; height: 40px; margin-left: 200px; margin-top: -68px;">Place Order</button>
-            </div>
-
-
-        </div>
-
-        <br><br><br><br><br><br><br><br><br><br><br><br>
 
 
 

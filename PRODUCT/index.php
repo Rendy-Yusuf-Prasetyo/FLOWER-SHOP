@@ -62,7 +62,6 @@ $row_nama = mysqli_fetch_assoc($query_name);
         <br>
         <div style="position:relative; left:300px; top:2px;">
             <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);"
-                aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="../Homepage/index.html">Home</a></li>
                     <li class="breadcrumb-item active" aria-current="page"><?= $row_nama['NAME'] ?></li>
@@ -73,7 +72,7 @@ $row_nama = mysqli_fetch_assoc($query_name);
             <h3 class="footer mt-5 pb-5" style="position: relative; left: 300px;">
             <?= $row_nama['NAME'] ?>
             <a href="../tambah-barang.php?id_category=<?= $id ?>">
-                <button type="button" class="btn btn-primary ms-5">Tambah</button>
+                <button type="button" class="btn btn-primary ms-5" style="">Tambah</button>
             </a>
             </h3>
         </div>
@@ -87,7 +86,7 @@ $row_nama = mysqli_fetch_assoc($query_name);
             <div class="col-lg-2 col-md-6">
                 <div class="col-md-3">
                     <div class="card" style="width: 18rem; margin-left: 300px;">
-                        <img src="./asset/icon/logo.jpeg" class="card-img-top" alt="...">
+                        <img src="<?= "../foto/" . $row['gambar'] ?>" class="card-img-top" alt="ini gambar" width="50px" height="200px">
                         <div class="card-body">
                             <h5 class="card-title"><?= $row['NAME'] ?></h5>
                             <div class="d-flex flex-row bd-highlight mb-3">
@@ -95,17 +94,17 @@ $row_nama = mysqli_fetch_assoc($query_name);
                                     <h6 style="font-size: 15px; text-decoration:line-through">Rp.<?= $row['PRICE'] ?></h6>
                                 </div>
                                 <div class="p-2 bd-highlight" style="margin-top: -4px;"><span
-                                        style="font-size: 15px; text-decoration: none !important;">Rp.<?= $diskon ?></span>
+                                        style="font-size: 18px; text-decoration: none !important;">Rp.<?= $diskon ?></span>
                                 </div>
                             </div>
                                 <form action="../tambah-cart.php?id=<?= $row['ID_PRODUCT'] ?>" method="post">
                                     <div class="button">
                                         <a href="../tambah-cart.php?id=<?= $row['ID_PRODUCT'] ?>">
-                                            <button name="beli_barang" type="submit" class="btn btn-primary mr-auto">Beli</button>
+                                            <button name="tmbh_keranjang" type="submit" class="btn btn-primary ps-3 pe-3" style="float: right; margin-top: -10px;">Beli</button>
                                         </a>
                                     </div>
                                 </form>
-                            <div class="badge bg-primary text-wrap ml-auto">
+                            <div class="badge bg-primary text-wrap ml-auto" style="font-size: 15px;">
                                 <?= $persen ?>% Off
                             </div>
                         </div>

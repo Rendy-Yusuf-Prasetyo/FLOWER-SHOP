@@ -93,49 +93,49 @@
 
             <div>
                 <h6 style="margin-left: 20px; margin-top: 30px; width: 200px;">First Name</h6>
-                <div style="width: 350px; margin-bottom: 5px; margin-left: 20px;">
+                <div class="input-group" style="width: 350px; margin-bottom: 5px; margin-left: 20px;">
                     <input type="text" class="form-control">
                 </div>
             </div>
 
             <div>
                 <h6 style="margin-left: 400px; margin-top: -70px; width: 200px;">Last Name</h6>
-                <div style="width: 350px; margin-bottom: 5px; margin-left: 400px;">
+                <div class="input-group" style="width: 350px; margin-bottom: 5px; margin-left: 400px;">
                     <input type="text" class="form-control">
                 </div>
             </div>
 
             <div>
                 <h6 style="margin-left: 20px; margin-top: 30px; width: 200px;">Street Address</h6>
-                <div style="width: 350px; margin-bottom: 5px; margin-left: 20px;">
+                <div class="input-group" style="width: 350px; margin-bottom: 5px; margin-left: 20px;">
                     <input type="text" class="form-control">
                 </div>
             </div>
 
             <div>
                 <h6 style="margin-left: 400px; margin-top: -70px; width: 200px;">Area</h6>
-                <div style="width: 350px; margin-bottom: 5px; margin-left: 400px;">
+                <div class="input-group" style="width: 350px; margin-bottom: 5px; margin-left: 400px;">
                     <input type="text" class="form-control">
                 </div>
             </div>
 
             <div>
                 <h6 style="margin-left: 20px; margin-top: 30px; width: 200px;">City</h6>
-                <div style="width: 350px; margin-bottom: 5px; margin-left: 20px;">
+                <div class="input-group" style="width: 350px; margin-bottom: 5px; margin-left: 20px;">
                     <input type="text" class="form-control">
                 </div>
             </div>
 
             <div>
                 <h6 style="margin-left: 400px; margin-top: -70px; width: 200px;">Phone Number</h6>
-                <div style="width: 350px; margin-bottom: 5px; margin-left: 400px;">
+                <div class="input-group" style="width: 350px; margin-bottom: 5px; margin-left: 400px;">
                     <input type="text" class="form-control">
                 </div>
             </div>
 
             <div>
                 <h6 style="margin-left: 20px; margin-top: 30px; width: 200px;">Delivery Instructions</h6>
-                <div style="width: 350px; margin-bottom: 5px; margin-left: 20px;">
+                <div class="input-group" style="width: 350px; margin-bottom: 5px; margin-left: 20px;">
                     <input type="text" class="form-control" style="height: 150px;">
                 </div>
             </div>

@@ -1,0 +1,19 @@
+        $id = $_GET['id_category'];
+        $nama = $_POST['nama'];
+        $brand = $_POST['brand'];
+        $harga = $_POST['price'];
+        $diskon = $_POST['discount'];
+        $quantity = $_POST['quantity'];
+
+SELECT a.id_kunci, b.NAME, c.BRAND 
+FROM category_product a JOIN categoty b ON a.ID_CATEGORY = b.ID_CATEGORY
+JOIN product c ON a.ID_PRODUCT = c.ID_PRODUCT; 
+
+SELECT c.PRICE, c.DELIVERY_CHARGE, c.GRAND_TOTAL FROM cart_item d 
+JOIN product b ON d.ID_PRODUCT = b.ID_PRODUCT 
+JOIN cart c ON d.ID_CART = c.ID_CART 
+JOIN db_user a ON c.ID_USER = a.ID_USER WHERE b.ID_PRODUCT = 4003;
+
+
+
+price discount quantity    
