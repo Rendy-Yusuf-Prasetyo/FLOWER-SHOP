@@ -1,3 +1,8 @@
+<?php 
+    include "../config.php";
+    $id = $_GET['id'];
+    $query = mysqli_fetch_assoc(mysqli_query($db, "SELECT * FROM product WHERE ID_PRODUCT = '$id'"));
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -41,7 +46,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav mx-auto custom2">
-                    <a class="nav-link active" aria-current="page" href="../Homepage/index.html">HOME</a>
+                    <a class="nav-link active" aria-current="page" href="../Homepage/index.php">HOME</a>
                     <a class="nav-link active" aria-current="page" href="#">BUNGA POT BESAR</a>
                     <a class="nav-link active" aria-current="page" href="../PRODUCT/index.html">BUNGA POT KECIL</a>
                     <a class="nav-link active" aria-current="page" href="#">POHON HIAS</a>
@@ -66,63 +71,42 @@
             </nav>
         </div>
 
-        <div class="container" style="max-width: 1250px; max-height: 1250px; background-color: white;">
-            <div class="contariner" style="width: 10px;">
-                <img src="./asset/icon/logo.jpeg" alt="#" style="width: 400px; margin-left: 100px; margin-top: 20px;">
-                <img src="./asset/icon/logo.jpeg" alt="#" style="width: 60px; margin-top: -773px; margin-left: 10px;">
-                <img src="./asset/icon/logo.jpeg" alt="#" style="width: 60px; margin-top: -673px; margin-left: 10px;">
-                <img src="./asset/icon/logo.jpeg" alt="#" style="width: 60px; margin-top: -573px; margin-left: 10px;">
+        <div class="container" style="padding-bottom: 190px; max-width: 1250px; max-height: 1250px; background-color: white;">
+            <?php  
+                $id_product = $query['ID_PRODUCT'];        
+                $diskon = $query['PRICE'] - $query['DISCOUNT'];
+                // $persen = $row_query_top_Seller['DISCOUNT'] / $row_query_top_Seller['PRICE'] * 100;
+                $query_diskon =  mysqli_query($db, "SELECT * FROM product WHERE ID_PRODUCT = '$id_product'");
+                $row_diskon = mysqli_fetch_assoc($query_diskon);
+                $persen_total = $row_diskon['tmp_discount'];
+            ?>
+          
+            <div class="contariner" style="width: 10px; margin-top: 50px; margin-bottom: 150px;">
+                <img src="<?= "../foto/" . $query['gambar'] ?>" alt="#" style="width: 400px; margin-left: 60px; margin-top: 40px; margin-bottom: 70px;">
+
             </div>
-            <p style="margin-left: 520px; margin-top: -475px;">BRAND</p>
-            <h5 style="margin-left: 520px; margin-top: -10px;">Product Name Goes Here</h5>
-            <img src="./asset/icon/love.jpeg" style="margin-left: 520px;">
-            <p style="margin-left: 540px; margin-top: -23px;">Add to Favourites</p>
-            <p style="margin-left: 520px; margin-top: -5px; width: 650px;">Nisl, do fames, consequat adipisicing.
-                Recusandae platea neque, cum, accusamus voluptate magni minim tincidunt, qui commodo ut ab Read M</p>
+            <p style="margin-left: 520px; margin-top: -550px;"><?= $query['BRAND'] ?></p>
+            <h5 style="margin-left: 520px; margin-top: -10px;"><?= $query['NAME'] ?></h5>
+            <p style="margin-left: 520px; margin-top: -5px; width: 650px;"><?= $query['product_detail'] ?></p>
             <div class="d-flex flex-row bd-highlight mb-3">
                 <div class="p-2 bd-highlight">
-                    <h6 style="font-size: 15px; text-decoration:line-through; margin-left: 520px;">Rp.50.000.00</h6>
+                    <h6 style="font-size: 15px; text-decoration:line-through; margin-left: 520px;">Rp. <?= $query['PRICE'] ?></h6>
                 </div>
                 <div class="p-2 bd-highlight" style="margin-top: -4px; margin-left: 5px;"><span
-                        style="font-size: 15px; text-decoration: none !important;"> Rp. 35.000,00</span>
+                        style="font-size: 15px; text-decoration: none !important;"> Rp. <?= $diskon ?></span>
                 </div>
 
 
                 <div class="badge bg-primary text-wrap ml-auto" style="height: 30px; color: white;">
-                    <p style="margin-top: 5px;">30% Off</p>
+                    <p style="margin-top: 5px;"><?= $persen_total ?>% Off</p>
                 </div>
             </div>
-            <button class="bg-dark" style="height: 40px; width: 150px; margin-left: 520px; color: white;">ADD TO
-                CHART</button>
-            <button class="bg-dark" style="height: 40px; width: 150px; margin-left: 10px; color: white;">BUY
-                NOW</button>
-            <br><br>
-            <div>
-                <img src="./asset/icon/blove.jpeg" alt="#" style="margin-left: 520px;">
-                <i class="bx bx-chevron-right"><a href="#" style="margin-left: 5px;">View My Favourites</a></i>
-                <p style="position: relative; margin-left: 785px; margin-top: -24px;">List</p>
-                <div>
-                    <button class="bg-secondary"
-                        style="height: 30px; width: 130px; margin-left: 520px; color: white;">Lorem Ipsem Se</button>
-                    <button class="bg-secondary"
-                        style="height: 30px; width: 130px; margin-left: 5px; color: white;">Lorem Ipsem Se</button>
-                    <button class="bg-secondary"
-                        style="height: 30px; width: 130px; margin-left: 5px; color: white;">Lorem Ipsem Se</button>
-                    <button class="bg-secondary"
-                        style="height: 30px; width: 130px; margin-left: 5px; color: white;">Lorem Ipsem Se</button>
-                </div>
-                <div>
-                    <button class="bg-secondary"
-                        style="height: 30px; width: 130px; margin-left: 520px; margin-top: 10px; color: white;">Lorem
-                        Ipsem Se</button>
-                    <button class="bg-secondary"
-                        style="height: 30px; width: 130px; margin-left: 5px; color: white;">Lorem Ipsem Se</button>
-                    <button class="bg-secondary"
-                        style="height: 30px; width: 130px; margin-left: 5px; color: white;">Lorem Ipsem Se</button>
-                    <button class="bg-secondary"
-                        style="height: 30px; width: 130px; margin-left: 5px; color: white;">Lorem Ipsem Se</button>
-                </div>
-            </div>
+                <form action="../tambah-cart.php?id=<?= $query['ID_PRODUCT'] ?>" method="post">
+                    <a href="../tambah-cart.php?id=<?= $query['ID_PRODUCT'] ?>">
+                        <button class="bg-dark" style="height: 40px; width: 150px; margin-left: 520px; color: white;" name="tmbh_keranjang">ADD TO
+                            CHART</button>
+                    </a>
+                </form>
             <br><br>
         </div>
 

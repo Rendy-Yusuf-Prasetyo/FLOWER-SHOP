@@ -155,136 +155,126 @@ $row = mysqli_fetch_assoc($query);
   </div>
   <div class="container mt-3">
 
-    <h3>Produk Lain <a href="" style="font-size: 20px"> Lihat Semua</a></h3>
+    <h3 style="margin-top: 50px;" >New Arrival!!!</h3>
     <br>
 
     <div class="row mt-3">
       <div class="col-md-5 custom1">
         <img src="./asset/icon/box1.jpg" alt="" class="img-fluid" style="height: 420px; width: 500px;">
-        <button class="btn btn-light">
-          SHOP NOW
-        </button>
         <!-- <button type="button" class="btn btn-primary">SHOP NOW</button> -->
       </div>
+      <?php 
+        $query1 = mysqli_query($db, "SELECT * FROM product ORDER BY ID_PRODUCT ASC LIMIT 2");
+        while($row_query1 = mysqli_fetch_assoc($query1)) :
+          $id_product = $row_query1['ID_PRODUCT'];        
+          $diskon = $row_query1['PRICE'] - $row_query1['DISCOUNT'];
+          // $persen = $row_query_top_Seller['DISCOUNT'] / $row_query_top_Seller['PRICE'] * 100;
+          $query_diskon =  mysqli_query($db, "SELECT * FROM product WHERE ID_PRODUCT = '$id_product'");
+          $row_diskon = mysqli_fetch_assoc($query_diskon);
+          $persen_total = $row_diskon['tmp_discount'];
+      ?>
       <div class="col-md-3">
-        <div class="card" style="width: 18rem;">
-          <img src="./asset/icon/logo.jpeg" class="card-img-top" alt="">
-          <div class="card-body">
-            <h5 class="card-title">Bunga Sepeda</h5>
+        <a href="../DetailPage/index.php?id=<?= $row_query1['ID_PRODUCT'] ?>">
+          <div class="card" style="width: 18rem;">
+            <img src="<?= "../foto/" . $row_query1['gambar'] ?>" class="card-img-top" alt="Ini Foto" width="50" height="300">
+            <div class="card-body">
+              <h5 class="card-title"><?= $row_query1['NAME'] ?></h5>
 
-            <div class="d-flex flex-row bd-highlight mb-3">
-              <div class="p-2 bd-highlight">
-                <h6 style="font-size: 15px; text-decoration:line-through">Rp.50.000.00</h6>
+              <div class="d-flex flex-row bd-highlight mb-3">
+                <div class="p-2 bd-highlight">
+                  <h6 style="font-size: 15px; text-decoration:line-through">Rp. <?= $row_query1['PRICE'] ?></h6>
+                </div>
+                <div class="p-2 bd-highlight" style="margin-top: -4px;"><span
+                    style="font-size: 15px; text-decoration: none !important;"> Rp. <?= $diskon ?></span></div>
               </div>
-              <div class="p-2 bd-highlight" style="margin-top: -4px;"><span
-                  style="font-size: 15px; text-decoration: none !important;"> Rp. 35.000,00</span></div>
-            </div>
 
-            <div class="badge bg-primary text-wrap ml-auto">
-              30% Off
+              <div class="badge bg-primary text-wrap ml-auto">
+                <?= $persen_total ?>% Off
+              </div>
             </div>
           </div>
-        </div>
+        </a>
       </div>
-      <div class="col-md-3">
-        <div class="card" style="width: 18rem;">
-          <img src="./asset/icon/logo.jpeg" class="card-img-top" alt="">
-          <div class="card-body">
-            <h5 class="card-title">Bunga Sepeda</h5>
-
-            <div class="d-flex flex-row bd-highlight mb-3">
-              <div class="p-2 bd-highlight">
-                <h6 style="font-size: 15px; text-decoration:line-through">Rp.50.000.00</h6>
-              </div>
-              <div class="p-2 bd-highlight" style="margin-top: -4px;"><span
-                  style="font-size: 15px; text-decoration: none !important;"> Rp. 35.000,00</span></div>
-            </div>
-
-            <div class="badge bg-primary text-wrap ml-auto">
-              30% Off
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="container mt-3">
-    <div class="row">
-      <div class="col-md-3">
-        <div class="card" style="width: 18rem;">
-          <img src="./asset/icon/logo.jpeg" class="card-img-top" alt="">
-          <div class="card-body">
-            <h5 class="card-title">Bunga Sepeda</h5>
-            <div class="d-flex flex-row bd-highlight mb-3">
-              <div class="p-2 bd-highlight">
-                <h6 style="font-size: 15px; text-decoration:line-through">Rp.50.000.00</h6>
-              </div>
-              <div class="p-2 bd-highlight" style="margin-top: -4px;"><span
-                  style="font-size: 15px; text-decoration: none !important;"> Rp. 35.000,00</span></div>
-            </div>
-            <div class="badge bg-primary text-wrap ml-auto">
-              30% Off
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="card" style="width: 18rem;">
-          <img src="./asset/icon/logo.jpeg" class="card-img-top" alt="">
-          <div class="card-body">
-            <h5 class="card-title">Bunga Sepeda</h5>
-            <div class="d-flex flex-row bd-highlight mb-3">
-              <div class="p-2 bd-highlight">
-                <h6 style="font-size: 15px; text-decoration:line-through">Rp.50.000.00</h6>
-              </div>
-              <div class="p-2 bd-highlight" style="margin-top: -4px;"><span
-                  style="font-size: 15px; text-decoration: none !important;"> Rp. 35.000,00</span></div>
-            </div>
-            <div class="badge bg-primary text-wrap ml-auto">
-              30% Off
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-5 custom1">
-        <img src="./asset/icon/box1.jpg" alt="" class="img-fluid" style="height: 420px; width: 500px;">
-        <button class="btn btn-light">
-          SHOP NOW
-        </button>
-      </div>
-      <div class="row">
-        <img src="./asset/icon/panjang1.jpg" class="img-fluid mt-3" alt="..." style="height: 177px; width: 1185px;">
-      </div>
-      <h3><br>TOP SELLERS <a href="" style="font-size: 20px"> SEE ALL</a></h3>
+      <?php endwhile; ?>
     </div>
   </div>
 
   <div class="container mt-3">
     <div class="row">
       <?php 
-        $query_top_seller = mysqli_query($db, "SELECT * FROM PRODUCT WHERE QUANTITY < 100001 ORDER BY QUANTITY DESC LIMIT 4");
-        while($row_query_top_Seller = mysqli_fetch_assoc($query_top_seller)) :
-              $diskon = $row_query_top_Seller['PRICE'] - $row_query_top_Seller['DISCOUNT'];
-              $persen = $row_query_top_Seller['PRICE'] / $row_query_top_Seller['DISCOUNT']/100;
+          $query2 = mysqli_query($db, "SELECT * FROM product ORDER BY QUANTITY DESC LIMIT 2");
+          while($row_query2 = mysqli_fetch_assoc($query2)) :
+            $id_product = $row_query2['ID_PRODUCT'];        
+            $diskon = $row_query2['PRICE'] - $row_query2['DISCOUNT'];
+            // $persen = $row_query_top_Seller['DISCOUNT'] / $row_query_top_Seller['PRICE'] * 100;
+            $query_diskon =  mysqli_query($db, "SELECT * FROM product WHERE ID_PRODUCT = '$id_product'");
+            $row_diskon = mysqli_fetch_assoc($query_diskon);
+            $persen_total = $row_diskon['tmp_discount'];
       ?>
       <div class="col-md-3">
-        <div class="card">
-          <img src="./asset/icon/logo.jpeg" class="card-img-top" alt="">
-          <div class="card-body">
-            <h5 class="card-title"><?= $row_query_top_Seller['NAME'] ?></h5>
-            <div class="d-flex flex-row bd-highlight mb-3">
-              <div class="p-2 bd-highlight">
-                <h6 style="font-size: 14px; text-decoration:line-through">Rp.<?= $row_query_top_Seller['PRICE'] ?></h6>
+        <a href="../DetailPage/index.php?id=<?= $row_query2['ID_PRODUCT'] ?>">
+          <div class="card" style="width: 18rem;">
+            <img src="<?= "../foto/" . $row_query2['gambar'] ?>" class="card-img-top" alt="Ini Foto" width="50" height="300">
+            <div class="card-body">
+              <h5 class="card-title"><?= $row_query2['NAME'] ?></h5>
+              <div class="d-flex flex-row bd-highlight mb-3">
+                <div class="p-2 bd-highlight">
+                  <h6 style="font-size: 15px; text-decoration:line-through">Rp. <?= $row_query2['PRICE'] ?></h6>
+                </div>
+                <div class="p-2 bd-highlight" style="margin-top: -4px;"><span
+                    style="font-size: 15px; text-decoration: none !important;"> Rp. <?= $diskon ?></span></div>
               </div>
-              <div class="p-2 bd-highlight" style="margin-top: -6px;"><span
-                  style="font-size: 14px; text-decoration: none !important;"> Rp. <?= $diskon ?></span></div>
-            </div>
-            <div class="badge bg-primary text-wrap ml-auto">
-              <?= $persen ?>% Off
+              <div class="badge bg-primary text-wrap ml-auto">
+                <?= $persen_total ?>% Off
+              </div>
             </div>
           </div>
-        </div>
+        </a>
+      </div>
+      <?php 
+        endwhile;
+      ?>
+      <div class="col-md-5 custom1">
+        <img src="./asset/icon/taman.jpg" alt="" class="img-fluid" style="height: 420px; width: 500px;">
+      </div>
+      <div class="row">
+        <img src="./asset/icon/panjang1.jpg" class="img-fluid mt-3" alt="..." style="height: 177px; width: 1185px;">
+      </div>
+      <h3><br style="margin-top: 50px;">TOP SELLERS</h3>
+    </div>
+  </div>
+
+  <div class="container mt-3">
+    <div class="row">
+      <?php 
+        $query_top_seller = mysqli_query($db, "SELECT * FROM PRODUCT ORDER BY QUANTITY DESC LIMIT 4");
+        while($row_query_top_Seller  = mysqli_fetch_assoc($query_top_seller)) :
+          $id_product = $row_query_top_Seller['ID_PRODUCT'];        
+          $diskon = $row_query_top_Seller['PRICE'] - $row_query_top_Seller['DISCOUNT'];
+          // $persen = $row_query_top_Seller['DISCOUNT'] / $row_query_top_Seller['PRICE'] * 100;
+          $query_diskon =  mysqli_query($db, "SELECT * FROM product WHERE ID_PRODUCT = '$id_product'");
+          $row_diskon = mysqli_fetch_assoc($query_diskon);
+          $persen_total = $row_diskon['tmp_discount'];
+      ?>
+      <div class="col-md-3">
+        <a href="../DetailPage/index.php?id=<?= $row_query_top_Seller['ID_PRODUCT'] ?>">
+          <div class="card">
+            <img src="<?= "../foto/" . $row_query_top_Seller['gambar'] ?>" class="card-img-top" alt="Ini Foto" width="50" height="300">
+            <div class="card-body">
+              <h5 class="card-title"><?= $row_query_top_Seller['NAME'] ?></h5>
+              <div class="d-flex flex-row bd-highlight mb-3">
+                <div class="p-2 bd-highlight">
+                  <h6 style="font-size: 14px; text-decoration:line-through">Rp.<?= $row_query_top_Seller['PRICE'] ?></h6>
+                </div>
+                <div class="p-2 bd-highlight" style="margin-top: -6px;"><span
+                    style="font-size: 14px; text-decoration: none !important;"> Rp. <?= $diskon ?></span></div>
+              </div>
+              <div class="badge bg-primary text-wrap ml-auto">
+                <?= $persen_total ?>% Off
+              </div>
+            </div>
+          </div>
+        </a>
       </div>
       <?php 
       endwhile;

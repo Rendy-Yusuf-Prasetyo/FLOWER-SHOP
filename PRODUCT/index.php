@@ -95,7 +95,7 @@ $user = mysqli_fetch_assoc(mysqli_query($db, "SELECT FIRST_NAME FROM db_user"));
                 <div class="col-md-3">
                     <a href="">
                         <div class="card" style="width: 300px; margin-left: 300px;">
-                            <img src="<?= "../foto/" . $row['gambar'] ?>" class="card-img-top" alt="ini gambar" width="50px" height="200px">
+                            <img src="<?= "../foto/" . $row['gambar'] ?>" class="card-img-top" alt="ini gambar" width="50" height="300">
                             <div class="card-body">
                                 <h5 class="card-title"><?= $row['NAME'] ?></h5>
                                 <div class="d-flex flex-row bd-highlight mb-3">

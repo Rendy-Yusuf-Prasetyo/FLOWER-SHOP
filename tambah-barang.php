@@ -11,6 +11,7 @@ $query_user = mysqli_query($db, "SELECT FIRST_NAME FROM db_user");
         $harga = $_POST['price'];
         $diskon = $_POST['discount'];
         $quantity = $_POST['quantity'];
+        $deksripsi = $_POST['deskripsi'];
         // $foto = $_POST['file'];
 
         // $targer_dir = "gambar/";
@@ -51,7 +52,7 @@ $query_user = mysqli_query($db, "SELECT FIRST_NAME FROM db_user");
         while($row_nama_barang = mysqli_fetch_assoc($cek_nama_barang)){
             $nama_barang = $row_nama_barang['NAME'];
             if ($nama_barang == null) {
-                mysqli_query($db, "INSERT INTO product VALUES(4001, '$nama ', '$brand', '$harga', '$diskon', '$quantity', '$nama_foto')");
+                mysqli_query($db, "INSERT INTO product VALUES(4001, '$nama ', '$brand', '$harga', '$diskon', '$quantity', '$nama_foto', '', '$deksripsi')");
                 mysqli_query($db, "INSERT INTO category_product VALUES('$id',4001)");
                 echo "
                     <script>
@@ -60,7 +61,7 @@ $query_user = mysqli_query($db, "SELECT FIRST_NAME FROM db_user");
                 ";
                 break;
             }else if($nama_barang != $nama){
-                mysqli_query($db, "INSERT INTO product VALUES('', '$nama ', '$brand', '$harga', '$diskon', '$quantity', '$nama_foto')");
+                mysqli_query($db, "INSERT INTO product VALUES('', '$nama ', '$brand', '$harga', '$diskon', '$quantity', '$nama_foto', '', '$deksripsi')");
                 echo "
                     <script>
                         alert('Data sukses ditambahkan');
@@ -169,6 +170,10 @@ $query_user = mysqli_query($db, "SELECT FIRST_NAME FROM db_user");
                     <!-- <label class="input-group-text" for="inputGroupFile01">Upload Gambar</label> -->
                     <label for="foto">Input Foto</label>
                     <input type="file" class="form-control" name="file" id="foto">
+                </div>
+                <div class="mb-3">
+                    <label for="quantity">Deskripsi Produk</label>
+                    <input type="text" class="form-control" name="deskripsi" id="quantity" style="padding-bottom: 80px;" required>
                 </div>
                 <div class="mb-3">
                     <button type="submit" name="simpan" class="btn btn-primary">simpan</button>

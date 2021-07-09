@@ -105,6 +105,11 @@
         }
         // header("Location: Homepage/index.php");
         
+        echo "
+        <script>
+            alert('Tidak membuka apa-apa');
+        </script>
+    ";
         // }
 
 

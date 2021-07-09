@@ -161,7 +161,7 @@ if (isset($_POST['tambah'])) {
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th scope="col"> </th>
+                                        <!-- <th scope="col"> </th> -->
                                         <th scope="col">Product</th>
                                         <th scope="col">Available</th>
                                         <th scope="col" class="text-center">Quantity</th>
@@ -181,7 +181,9 @@ if (isset($_POST['tambah'])) {
                                     while ($row = mysqli_fetch_assoc($query)) :
                                     ?>
                                     <tr>
-                                        <td><img src="<?= "../foto/" . $row['gambar'] ?>" /> </td>
+                                        <td">
+                                            <!-- <img src="<?= "../foto/" . $row['gambar'] ?>" />  -->
+                                        </td>
                                         <td><?= $row['NAME']; ?></td>
                                         <td><?= $row['QUANTITY']; ?></td>
                                         <td>
@@ -208,7 +210,7 @@ if (isset($_POST['tambah'])) {
                                     endwhile;
                                     ?>
                                     <tr>
-                                    <td></td>
+                                    <!-- <td></td> -->
                                     <td></td>
                                     <td></td>
                                     <td></td>
