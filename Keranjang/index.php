@@ -10,9 +10,6 @@ $cek_cart_item = mysqli_query($db, "SELECT *, a.QUANTITY as 'BANYAK' FROM cart_i
 $row_cart_item = mysqli_fetch_assoc($cek_cart_item);
 $cek_quantity = mysqli_fetch_assoc(mysqli_query($db,"SELECT SUM(QUANTITY) 'BANYAK' FROM cart_item WHERE ID_CART = '$id_cart'"));
 $banyak_uang = mysqli_fetch_assoc(mysqli_query($db, "SELECT SUM(a.tmp_price) 'BANYAK' FROM cart_item a JOIN product b ON a.ID_PRODUCT = b.ID_PRODUCT WHERE a.ID_CART = '$id_cart'"));
-// $id_cart_item_2 = mysqli_fetch_assoc($cek_cart_item);
-// $id_cart_pake = $id_cart_item_2['ID_CART'];
-// $row_cart_item = mysqli_fetch_assoc($cek_cart_item);
 $quantity = 1;
 $ambil_quantity = mysqli_query($db, "SELECT * FROM cart_item WHERE a.ID_CART = '$id_cart'");
 
@@ -33,16 +30,13 @@ if (isset($_POST['tambah'])) {
 
             $hitung_uang_satu = mysqli_fetch_assoc(mysqli_query($db, "SELECT PRICE, QUANTITY FROM cart_item WHERE ID_CART_ITEM = '$id_tambah'"));
             $hitung_uang_dua = $hitung_uang_satu['PRICE'] * $row_tambah['QUANTITY'];
-            echo "TOTAL UANG = " . $hitung_uang_dua;
+            // echo "TOTAL UANG = " . $hitung_uang_dua;
             mysqli_query($db, "UPDATE cart_item SET  tmp_price = '$hitung_uang_dua' WHERE ID_CART_ITEM = '$id_tambah'");
-            // $query_hitung = mysqli_fetch_assoc(mysqli_query($db, "SELECT tmp_price FROM cart_item WHERE ID_CART_ITEM = '$id_tambah'"));
-            // echo "HASIL TOTAL = " . $query_hitung['tmp_price'];
-            echo "<br> TOTAL BANYAK = " . $cek_quantity['BANYAK'];
-            // echo "BANYAK UANG = " . $banyak_uang['BANYAK'];
+            // echo "<br> TOTAL BANYAK = " . $cek_quantity['BANYAK'];
             $total_banyak = $banyak_uang['BANYAK'] - ($banyak_uang['BANYAK'] - ($cek_quantity['BANYAK'] * 1000));
-            echo "<br> BANYAK SEMUA = " .$total_banyak;
-                    // $total_banyak = $banyak_uang['BANYAK'] - $query_hitung['BANYAK'] / 0.05;
+            // echo "<br> BANYAK SEMUA = " .$total_banyak;
                     mysqli_query($db, "UPDATE cart SET DELIVERY_CHARGE = '$total_banyak' WHERE ID_CART = '$id_cart'");
+
 }else if(isset($_POST['kurang'])){
     $id_kurang = $_GET['id_cart_item'];
     $query_kurang = mysqli_query($db, "SELECT * FROM cart_item WHERE ID_CART_ITEM = '$id_kurang'");
@@ -55,20 +49,17 @@ if (isset($_POST['tambah'])) {
         $id_barang_kurang = $row_kurang_stok['ID_PRODUCT'];
         $stok = $row_kurang_stok['QUANTITY'];
         $row_banyak = $row_kurang_stok['BANYAK'];
-        echo "QUANTITY = " .$row_kurang_stok['BANYAK'];
+        // echo "QUANTITY = " .$row_kurang_stok['BANYAK'];
         $total_kurang = $stok + 1;
         mysqli_query($db, "UPDATE product SET QUANTITY = '$total_kurang' WHERE ID_PRODUCT = '$id_barang_kurang'");
 
             $hitung_uang_satu = mysqli_fetch_assoc(mysqli_query($db, "SELECT PRICE, QUANTITY FROM cart_item WHERE ID_CART_ITEM = '$id_kurang'"));
             $hitung_uang_dua = $hitung_uang_satu['PRICE'] / $row_kurang['QUANTITY'];
-            echo "TOTAL UANG = " . $hitung_uang_dua;
+            // echo "TOTAL UANG = " . $hitung_uang_dua;
             mysqli_query($db, "UPDATE cart_item SET tmp_price = '$hitung_uang_dua' WHERE ID_CART_ITEM = '$id_kurang'");
-            // $query_hitung = mysqli_fetch_assoc(mysqli_query($db, "SELECT tmp_price FROM cart_item WHERE ID_CART_ITEM = '$id_kurang'"));
-            // echo "HASIL TOTAL = " . $query_hitung['tmp_price'];
-            echo "<br> TOTAL BANYAK = " . $cek_quantity['BANYAK'];
-            // echo "BANYAK UANG = " . $banyak_uang['BANYAK'];
+            // echo "<br> TOTAL BANYAK = " . $cek_quantity['BANYAK'];
             $total_banyak = $banyak_uang['BANYAK'] - ($banyak_uang['BANYAK'] - ($cek_quantity['BANYAK'] * 1000));
-            echo "<br> BANYAK SEMUA = " .$total_banyak;
+            // echo "<br> BANYAK SEMUA = " .$total_banyak;
                     mysqli_query($db, "UPDATE cart SET DELIVERY_CHARGE = '$total_banyak' WHERE ID_CART = '$id_cart'");
                     if($row_kurang_stok['BANYAK'] < 1){
                         mysqli_query($db, "DELETE FROM cart_item WHERE ID_CART_ITEM = '$id_kurang'");
@@ -76,10 +67,9 @@ if (isset($_POST['tambah'])) {
 
 }else{
     global $row_banyak, $id_kurang;
-    echo "<br> TOTAL BANYAK = " . $cek_quantity['BANYAK'];
-    // echo "BANYAK UANG = " . $banyak_uang['BANYAK'];
+    // echo "<br> TOTAL BANYAK = " . $cek_quantity['BANYAK'];
     $total_banyak = $banyak_uang['BANYAK'] - ($banyak_uang['BANYAK'] - ($cek_quantity['BANYAK'] * 1000));
-    echo "<br> BANYAK SEMUA = " .$total_banyak;
+    // echo "<br> BANYAK SEMUA = " .$total_banyak;
             mysqli_query($db, "UPDATE cart SET DELIVERY_CHARGE = '$total_banyak' WHERE ID_CART = '$id_cart'");
             if($row_banyak < 1){
                 mysqli_query($db, "DELETE FROM cart_item WHERE ID_CART_ITEM = '$id_kurang'");
@@ -157,102 +147,75 @@ if (isset($_POST['tambah'])) {
             <div class="row">
                 <div class="col-12">
                     <div class="table-responsive">
-                        <!-- <form action="cart_item.php" method="post"> -->
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <!-- <th scope="col"> </th> -->
-                                        <th scope="col">Product</th>
-                                        <th scope="col">Available</th>
-                                        <th scope="col" class="text-center">Quantity</th>
-                                        <!-- <th></th> -->
-                                        <th scope="col">Aksi</th>
-                                        
-                                        
-                                        <th scope="col" class="text-right">Price</th>
-                                        <th> </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                <?php 
-
-                                // WHERE ID_CART = '$id'
-                                $query = mysqli_query($db, "SELECT a.ID_CART_ITEM, b.NAME, b.QUANTITY, a.QUANTITY 'BANYAK', b.PRICE, b.gambar FROM cart_item a JOIN product b ON a.ID_PRODUCT = b.ID_PRODUCT WHERE ID_CART = '$id_cart'");
-                                    while ($row = mysqli_fetch_assoc($query)) :
-                                    ?>
-                                    <tr>
-                                        <td">
-                                            <!-- <img src="<?= "../foto/" . $row['gambar'] ?>" />  -->
-                                        </td>
-                                        <td><?= $row['NAME']; ?></td>
-                                        <td><?= $row['QUANTITY']; ?></td>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Product</th>
+                                    <th scope="col">Available</th>
+                                    <th scope="col" class="text-center">Quantity</th>
+                                    <th scope="col">Aksi</th>
+                                    
+                                    
+                                    <th scope="col" class="text-right">Price</th>
+                                    <th> </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <?php 
+                            $query = mysqli_query($db, "SELECT a.ID_CART_ITEM, b.NAME, b.QUANTITY, a.QUANTITY 'BANYAK', b.PRICE, b.gambar FROM cart_item a JOIN product b ON a.ID_PRODUCT = b.ID_PRODUCT WHERE ID_CART = '$id_cart'");
+                                while ($row = mysqli_fetch_assoc($query)) :
+                                ?>
+                                <tr>
+                                    <td><?= $row['NAME']; ?></td>
+                                    <td><?= $row['QUANTITY']; ?></td>
+                                    <td>
+                                        <?= $row['BANYAK'] ?>
+                                    </td>
+                                    <form action="index.php?id_cart_item=<?= $row['ID_CART_ITEM'] ?>" method="post">
                                         <td>
-                                            <!-- <input class="form-control" type="text" name="banyak" id="banyak" /> -->
-                                            <?= $row['BANYAK'] ?>
+                                            <a href="index.php?id_cart_item=<?= $row['ID_CART_ITEM'] ?>">
+                                                <button type="submit" class="btn btn-primary" name="tambah">+</button>
+                                            </a>
+                                            <a href="index.php?id_cart_item=<?= $row['ID_CART_ITEM'] ?>">
+                                                <button type="submit" class="btn btn-danger" name="kurang" style="margin-left: 10px;">-</button>
+                                            </a>
                                         </td>
-                                        <form action="index.php?id_cart_item=<?= $row['ID_CART_ITEM'] ?>" method="post">
-                                            <td>
-                                                <a href="index.php?id_cart_item=<?= $row['ID_CART_ITEM'] ?>">
-                                                    <button type="submit" class="btn btn-primary" name="tambah">+</button>
-                                                </a>
-                                                <a href="index.php?id_cart_item=<?= $row['ID_CART_ITEM'] ?>">
-                                                    <button type="submit" class="btn btn-danger" name="kurang" style="margin-left: 10px;">-</button>
-                                                </a>
-                                            </td>
-                                        </form>
-                                        <!-- <td><input type="text" name="quantity"></td> -->
-                                        <td class="text-right">Rp.<?= $row['PRICE'] ?></td>
-                                        <!-- <td></td> -->
-                                        <td></td>
-                                    </tr>
+                                    </form>
+                                    <td class="text-right">Rp.<?= $row['PRICE'] ?></td>
+                                    <td></td>
+                                    <!-- </tr> -->
                                     <?php 
-                                        
                                     endwhile;
                                     ?>
                                     <tr>
-                                    <!-- <td></td> -->
                                     <td></td>
                                     <td></td>
                                     <td></td>
                                     <td><strong>Total</strong></td>
                                     <td class="text-right"><strong>Rp.<?= $banyak_uang['BANYAK'] ?></strong></td>
                                 </tr>
-                                </tbody>
+                            </tbody>
                             </table>
-                            <form action="../checkout.php?id_cart=<?= $id_cart ?>" method="post">
-                                <div class="col-sm-12 col-m d-6 text-right">
-                                    <button class="btn btn-lg btn-block btn-success text-uppercase" name="submit" type="submit" name="lanjutkan">Lanjutkan</button>
-                                </div>
-                            </form>
-                        <!-- </form> -->
+                                <form action="../checkout.php?id_cart=<?= $id_cart ?>" method="post">
+                                    <div class="col-sm-12 col-m d-6 text-right">
+                                        <button class="btn btn-lg btn-block btn-success text-uppercase" name="submit" type="submit" name="lanjutkan">Lanjutkan</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <!-- <div class="col mb-2">
-                    <div class="row">
-                        <!-- <div class="col-sm-12  col-md-6">
-                            <a href="pilih.php"><button class="btn btn-block btn-light">Continue Shopping</button>
-                        </a>    
-                        </div> -->
-                        <!-- <div class="col-sm-12 col-md-6 text-right">
-                            <a href="checkout.php?id_cart=<?= $row_id_cart['ID_CART'] ?>">
-                                <button class="btn btn-lg btn-block btn-success text-uppercase"  type="button" name="lanjutkan">Lanjutkan</button>
-                            </a>
-                        </div> -->
-                    </div>
-                </div> -->
             </div>
-</div>
-    </div>
         </div>
+    </div>
 
 
 
-        <div class="footer mt-5 pb-5 bg2">
-            <div class="container-fluid">
-                <div class="row ms-5 me-5">
-                    <div class="col-lg-2 col-md-6 footer-contact" style="margin-top: 50px; margin-left: 25px;">
-                        <img src="./asset/icon/logo.jpeg" class="align-self-center rounded-circle" alt="..."
-                            style="height: 100px; width: 100px; margin-left: 85px;">
+    <div class="footer mt-5 pb-5 bg2">
+        <div class="container-fluid">
+            <div class="row ms-5 me-5">
+                <div class="col-lg-2 col-md-6 footer-contact" style="margin-top: 50px; margin-left: 25px;">
+                    <img src="./asset/icon/logo.jpeg" class="align-self-center rounded-circle" alt="..." style="height: 100px; width: 100px; margin-left: 85px;">
                         <div class="icon-sosmed d-flex flex-row justify-content-center">
                             <a href="#" style="margin: 0 1%">
                                 <img src="./asset/icon/facebook.png" alt="" width="40px" height="40px"
@@ -312,7 +275,7 @@ if (isset($_POST['tambah'])) {
 
     <div class="bank" style="position: relative; left: 1550px;">
         <h6 style="position: relative; right: 1430px; top: 35px;">
-            © 2021. All Rights Reserved.
+            © 2021. Rens Corporations.
         </h6>
         <img src="./asset/icon/ceklis.jpeg" class="img-fluid col-lg-2 col-md-3" alt="..."
             style="height: 28px; width: 22px; margin-left: 20px;">
@@ -321,21 +284,10 @@ if (isset($_POST['tambah'])) {
         <img src="./asset/icon/visa.jpeg" class="img-fluid col-lg-2 col-md-3" alt="..."
             style="height: 25px; width: 75px; margin-left: 15px;">
     </div>
-
     <br>
-
-    <!-- Optional JavaScript; choose one of the two! -->
-
-    <!-- Option 1: Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
-        crossorigin="anonymous"></script>
-
-    <!-- Option 2: Separate Popper and Bootstrap JS -->
-    <!--
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
-  -->
+        crossorigin="anonymous"></script>=
 </body>
 
 </html>

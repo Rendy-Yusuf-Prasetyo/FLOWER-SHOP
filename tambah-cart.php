@@ -103,7 +103,8 @@
                     // JOIN cart c ON d.ID_CART = c.ID_CART 
                     // JOIN db_user a ON c.ID_USER = a.ID_USER");
                     // $row_berjalan_akhir = mysqli_fetch_assoc($query_berjalan_akhir);
-                    $cek_id_cart_berjalan = mysqli_fetch_assoc(mysqli_query($db, "SELECT b.ID_CART FROM cart_item a JOIN cart b ON a.ID_CART = b.ID_CART WHERE status = 'berjalan'"));
+                    $cek_id_cart_berjalan = mysqli_fetch_assoc(mysqli_query($db, "SELECT * FROM cart WHERE status = 'berjalan'"));
+                    // $cek_id_cart_berjalan = mysqli_fetch_assoc(mysqli_query($db, "SELECT b.ID_CART FROM cart_item a JOIN cart b ON a.ID_CART = b.ID_CART WHERE status = 'berjalan'"));
                     $id_cart_null = $cek_id_cart_berjalan['ID_CART'];
                     $quantity = 1;
                     $query = mysqli_query($db, "INSERT INTO cart_item VALUES ('', '$id_cart_null', '$id', '$price_product', '$diskon', '$quantity', '')");

@@ -28,7 +28,7 @@
                 <button class="btn btn-outline-success" type="submit" style="width: 200px;">Cari</button>
                 <img src="./asset/icon/keranjang.jpeg" alt="" class="image"
                     style="margin-left: 20px; width:25px; height:25px;">
-                <i class="bx bx-chevron-right"></i> <a href="#" style="margin-left: 10px;"> Keranjang</a>
+                <i class="bx bx-chevron-right"></i> <a href="../Keranjang/index.php" style="margin-left: 10px;"> Keranjang</a>
                 <p style="margin-left: 30px;"> |</p>
                 <img src="./asset/icon/user.jpeg" alt="" class="image"
                     style="margin-left: 20px; width:25px; height:25px;">
@@ -47,11 +47,9 @@
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav mx-auto custom2">
                     <a class="nav-link active" aria-current="page" href="../Homepage/index.php">HOME</a>
-                    <a class="nav-link active" aria-current="page" href="#">BUNGA POT BESAR</a>
-                    <a class="nav-link active" aria-current="page" href="../PRODUCT/index.html">BUNGA POT KECIL</a>
-                    <a class="nav-link active" aria-current="page" href="#">POHON HIAS</a>
-                    <a class="nav-link active" aria-current="page" href="#">BUNGA HIAS TANGKAI</a>
-                    <a class="nav-link active" aria-current="page" href="#">PROMO</a>
+                    <a class="nav-link active" aria-current="page" href="../PRODUCT/index.php?id=3001">BUNGA POT BESAR</a>
+                    <a class="nav-link active" aria-current="page" href="../PRODUCT/index.php?id=3002">BUNGA POT KECIL</a>
+                    <a class="nav-link active" aria-current="page" href="../PRODUCT/index.php?id=3003">POHON HIAS</a>
                 </div>
             </div>
         </div>
@@ -66,18 +64,18 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="../Homepage/index.html">Home</a></li>
                     <li class="breadcrumb-item"><a href="../PRODUCT/index.html">Bunga pot kecil</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Bunga Sepeda</li>
                 </ol>
             </nav>
         </div>
 
         <div class="container" style="padding-bottom: 190px; max-width: 1250px; max-height: 1250px; background-color: white;">
             <?php  
+
                 $id_product = $query['ID_PRODUCT'];        
                 $diskon = $query['PRICE'] - $query['DISCOUNT'];
                 // $persen = $row_query_top_Seller['DISCOUNT'] / $row_query_top_Seller['PRICE'] * 100;
                 $query_diskon =  mysqli_query($db, "SELECT * FROM product WHERE ID_PRODUCT = '$id_product'");
-                $row_diskon = mysqli_fetch_assoc($query_diskon);
+                while($row_diskon = mysqli_fetch_assoc($query_diskon)) :
                 $persen_total = $row_diskon['tmp_discount'];
             ?>
           
@@ -88,99 +86,27 @@
             <p style="margin-left: 520px; margin-top: -550px;"><?= $query['BRAND'] ?></p>
             <h5 style="margin-left: 520px; margin-top: -10px;"><?= $query['NAME'] ?></h5>
             <p style="margin-left: 520px; margin-top: -5px; width: 650px;"><?= $query['product_detail'] ?></p>
-            <div class="d-flex flex-row bd-highlight mb-3">
-                <div class="p-2 bd-highlight">
-                    <h6 style="font-size: 15px; text-decoration:line-through; margin-left: 520px;">Rp. <?= $query['PRICE'] ?></h6>
-                </div>
-                <div class="p-2 bd-highlight" style="margin-top: -4px; margin-left: 5px;"><span
-                        style="font-size: 15px; text-decoration: none !important;"> Rp. <?= $diskon ?></span>
-                </div>
+                <div class="d-flex flex-row bd-highlight mb-3">
+                    <div class="p-2 bd-highlight">
+                        <h6 style="font-size: 15px; text-decoration:line-through; margin-left: 520px;">Rp. <?= $query['PRICE'] ?></h6>
+                    </div>
+                    <div class="p-2 bd-highlight" style="margin-top: -4px; margin-left: 5px;"><span
+                            style="font-size: 15px; text-decoration: none !important;"> Rp. <?= $diskon ?></span>
+                    </div>
 
 
-                <div class="badge bg-primary text-wrap ml-auto" style="height: 30px; color: white;">
-                    <p style="margin-top: 5px;"><?= $persen_total ?>% Off</p>
+                    <div class="badge bg-primary text-wrap ml-auto" style="height: 30px; color: white;">
+                        <p style="margin-top: 5px;"><?= $persen_total ?>% Off</p>
+                    </div>
                 </div>
-            </div>
                 <form action="../tambah-cart.php?id=<?= $query['ID_PRODUCT'] ?>" method="post">
                     <a href="../tambah-cart.php?id=<?= $query['ID_PRODUCT'] ?>">
                         <button class="bg-dark" style="height: 40px; width: 150px; margin-left: 520px; color: white;" name="tmbh_keranjang">ADD TO
-                            CHART</button>
+                            CART</button>
                     </a>
                 </form>
             <br><br>
-        </div>
-
-        <br>
-
-        <div class="container" style="max-width: 1250px; max-height: 1250px; background-color: white;">
-            <br>
-            <div>
-                <h4 style="margin-left: 50px;">Product Details</h4>
-                <br>
-                <p style="margin-left: 50px; font-size: 15px;">Ad illum natoque volutpat leo curabitur est nisi
-                    reprehenderit quisque illo ullam scelerisque viverra taciti voluptatum adipiscing omnis vel augue
-                    convallis anim dis quis et molestiae, eos aenean corrupti neque? Interdum, quisque diam molestie
-                    porta iaculis earum? Non magni bibendum eum fugiat, fringilla donec! Facilis eligendi litora mattis
-                    similique laborum dictumst sapien cubilia aute. Etiam, architecto bibendum, est odit laboriosam.
-                    Tempora minim maiores voluptatum. Cillum? Posuere. Imperdiet adipisci, beatae reprehenderit bibendum
-                    optio reiciendis pellentesque inceptos, quos pulvinar pellentesque, elit sociis? Felis omnis est
-                    quis, officiis dolor accusamus fusce saepe veritatis, quo feugiat etiam lobortis laboris assumenda
-                    minus nullam molestie, proin.
-                </p>
-                <br>
-                <h4 style="margin-left: 50px;">Key Ingredients</h4>
-                <li style="margin-left: 50px; font-size: 15px;">Ingredient - Eget cursus officiis, consequuntur adipitin
-                    cidunt scinimano</li>
-                <li style="margin-left: 50px; font-size: 15px;">Ingredient - Eget cursus officiis, consequuntur adipisci
-                    tincidunt, velit nemo dict</li>
-                <li style="margin-left: 50px; font-size: 15px;">Ingredient - Eget cursus officiis, consntur adipisci
-                    tincidunt, velit</li>
-                <li style="margin-left: 50px; font-size: 15px;">Ingredient - Eget cursus officiis, consequuntur adipisci
-                </li>
-            </div>
-
-            <div>
-                <h4 style="margin-left: 650px; margin-top: -125px;">Key Benefits</h4>
-                <li style="margin-left: 650px; font-size: 15px;">Nisl! Venenatis, esse conubia nibh ipsum, eiusmod
-                    sequi, vitae convallis lectus dignis</li>
-                <li style="margin-left: 650px; font-size: 15px;">Nisl! Venenatis, esse conubia nibh ipsum, eiusmod
-                    sequi, vitae convallis lectus dignissim integer </li>
-                <li style="margin-left: 650px; font-size: 15px;">Nisl! Venenatis, esse conubia nibh ipsum, eiusmod
-                    sequi, vitae convallis lect</li>
-                <li style="margin-left: 650px; font-size: 15px;">Nisl! Venenatis, esse conubia nibh ipsum, eiusmod sequi
-                </li>
-            </div>
-
-            <br>
-
-            <div>
-                <h4 style="margin-left: 50px;">How To Use?</h4>
-                <br>
-                <p style="margin-left: 50px; font-size: 15px;">Ad illum natoque volutpat leo curabitur est nisi
-                    reprehenderit quisque illo ullam scelerisque viverra taciti voluptatum adipiscing omnis vel augue
-                    convallis anim dis quis et molestiae, eos aenean corrupti neque? Interdum, quisque diam molestie
-                    porta iaculis earum? Non magni bibendum eum fugiat, fringilla donec! Facilis eligendi litora mattis
-                    similique laborum dictumst sapien cubilia aute. Etiam, architecto bibendum, est odit laboriosam.
-                    Tempora minim maiores voluptatum. Cillum? Posuere. Imperdiet adipisci, beatae reprehenderit bibendu
-                </p>
-            </div>
-
-            <br>
-
-            <div>
-                <h4 style="margin-left: 50px;">All Ingredients</h4>
-                <br>
-                <p style="margin-left: 50px; font-size: 15px;">Water, Brassica Alcohol, Glycerin, Neopentyl Glycol
-                    Diethylhexanoate, Propanediol, Bis-Stearyl Dimethicone, Trimethylpentanediol/Adipic Acid Copolymer,
-                    Butyrospermum Parkii (Shea) Butter, Dimethicone, Squalane, Potassium Cetyl Phosphate, Retinol,
-                    Polysorbate 20, Caprylic/Capric Triglyceride, Vitis Vinifera (Grape) Seed Oil, Helianthus Annuus
-                    (Sunflower) Seed Extract, Rosmarinus Officinalis (Rosemary) Leaf Extract, Oryza Sativa (Rice) Bran
-                    Extract, Opuntia Ficus-Indica Extract, Glycine Soja (Soybean) Extract, Saccharomyces Cerevisiae
-                    Extract, Hydrolyzed Collagen, Bakuchiol, Sodium Hyaluronate, Polymethylsilsesquioxane,
-                    HDI/Trimethylol Hexyllactone Crosspolymer, Caprylhydroxamic Acid, 1,2-Hexanediol, Xanthan Gum,
-                    Carbomer, Polysilicone-11, Disodium EDTA, Fragrance.</p>
-            </div>
-            <br>
+            <?php endwhile; ?>
         </div>
 
         <br>
@@ -313,83 +239,40 @@
     <div>
         <div class="container mt-3">
             <div class="row">
+            <?php 
+                $query = mysqli_query($db, "SELECT * FROM category_product b JOIN category a ON a.ID_CATEGORY = b.ID_CATEGORY JOIN product c ON b.ID_PRODUCT = c.ID_PRODUCT WHERE a.ID_CATEGORY = 3001 OR a.ID_CATEGORY = 3002 LIMIT 4");
+                while($row = mysqli_fetch_assoc($query)) :
+                    $id_product = $row['ID_PRODUCT'];        
+                    $diskon = $row['PRICE'] - $row['DISCOUNT'];
+                    $persen = $row['DISCOUNT'] / $row['PRICE'] * 100;
+                    mysqli_query($db, "UPDATE product SET tmp_discount = '$persen' WHERE ID_PRODUCT = '$id_product'");
+                    $query_diskon =  mysqli_query($db, "SELECT * FROM product WHERE ID_PRODUCT = '$id_product'");
+                    $row_diskon = mysqli_fetch_assoc($query_diskon);
+                    $persen_total = $row_diskon['tmp_discount'];
+            ?>
                 <div class="col-md-3">
-                    <div class="card">
-                        <img src="./asset/icon/logo.jpeg" class="card-img-top" alt="">
-                        <div class="card-body">
-                            <h5 class="card-title">Bunga Sepeda</h5>
-                            <div class="d-flex flex-row bd-highlight mb-3">
-                                <div class="p-2 bd-highlight">
-                                    <h6 style="font-size: 14px; text-decoration:line-through">Rp.50.000.00</h6>
+                    <a href="../DetailPage/index.php?id=<?= $row['ID_PRODUCT'] ?>">
+                        <div class="card">
+                            <img src=" <?= "../foto/" . $row['gambar'] ?>" class="card-img-top" alt="" width="50" height="300">
+                            <div class="card-body">
+                                <h5 class="card-title"><?= $row['NAME'] ?></h5>
+                                <div class="d-flex flex-row bd-highlight mb-3">
+                                    <div class="p-2 bd-highlight">
+                                        <h6 style="font-size: 14px; text-decoration:line-through">Rp.<?= $row['PRICE'] ?></h6>
+                                    </div>
+                                    <div class="p-2 bd-highlight" style="margin-top: -6px;"><span
+                                            style="font-size: 14px; text-decoration: none !important;"> Rp. <?= $diskon ?></span>
+                                    </div>
                                 </div>
-                                <div class="p-2 bd-highlight" style="margin-top: -6px;"><span
-                                        style="font-size: 14px; text-decoration: none !important;"> Rp. 35.000,00</span>
+                                <div class="badge bg-primary text-wrap ml-auto">
+                                    <?= $persen_total ?>% Off
                                 </div>
-                            </div>
-                            <div class="badge bg-primary text-wrap ml-auto">
-                                30% Off
                             </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
-                <div class="col-md-3">
-                    <div class="card">
-                        <img src="./asset/icon/logo.jpeg" class="card-img-top" alt="">
-                        <div class="card-body">
-                            <h5 class="card-title">Bunga Sepeda</h5>
-                            <div class="d-flex flex-row bd-highlight mb-3">
-                                <div class="p-2 bd-highlight">
-                                    <h6 style="font-size: 14px; text-decoration:line-through">Rp.50.000.00</h6>
-                                </div>
-                                <div class="p-2 bd-highlight" style="margin-top: -6px;"><span
-                                        style="font-size: 14px; text-decoration: none !important;"> Rp. 35.000,00</span>
-                                </div>
-                            </div>
-                            <div class="badge bg-primary text-wrap ml-auto">
-                                30% Off
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card">
-                        <img src="./asset/icon/logo.jpeg" class="card-img-top" alt="">
-                        <div class="card-body">
-                            <h5 class="card-title">Bunga Sepeda</h5>
-                            <div class="d-flex flex-row bd-highlight mb-3">
-                                <div class="p-2 bd-highlight">
-                                    <h6 style="font-size: 14px; text-decoration:line-through">Rp.50.000.00</h6>
-                                </div>
-                                <div class="p-2 bd-highlight" style="margin-top: -6px;"><span
-                                        style="font-size: 14px; text-decoration: none !important;"> Rp. 35.000,00</span>
-                                </div>
-                            </div>
-                            <div class="badge bg-primary text-wrap ml-auto">
-                                30% Off
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card">
-                        <img src="./asset/icon/logo.jpeg" class="card-img-top" alt="">
-                        <div class="card-body">
-                            <h5 class="card-title">Bunga Sepeda</h5>
-                            <div class="d-flex flex-row bd-highlight mb-3">
-                                <div class="p-2 bd-highlight">
-                                    <h6 style="font-size: 14px; text-decoration:line-through">Rp.50.000.00</h6>
-                                </div>
-                                <div class="p-2 bd-highlight" style="margin-top: -6px;"><span
-                                        style="font-size: 14px; text-decoration: none !important;"> Rp. 35.000,00</span>
-                                </div>
-                            </div>
-                            <div class="badge bg-primary text-wrap ml-auto">
-                                30% Off
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                <?php endwhile; ?>
+            </div>    
         </div>
     </div>
 
