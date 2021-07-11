@@ -5,7 +5,11 @@ $id = $_GET['id'];
 
 $query_name = mysqli_query($db, "SELECT * FROM CATEGORY WHERE ID_CATEGORY = '$id'");
 $row_nama = mysqli_fetch_assoc($query_name);
-$user = mysqli_fetch_assoc(mysqli_query($db, "SELECT FIRST_NAME FROM db_user"));
+$user = mysqli_fetch_assoc(mysqli_query($db, "SELECT * FROM db_user"));
+$id_user = $user['ID_USER'];
+$query_keranjang = mysqli_fetch_assoc(mysqli_query($db, "select b.ID_CART, a.FIRST_NAME, b.status 
+FROM cart b JOIN db_user a ON a.ID_USER = b.ID_USER WHERE a.ID_USER = '$id_user'"));
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -78,7 +82,7 @@ $user = mysqli_fetch_assoc(mysqli_query($db, "SELECT FIRST_NAME FROM db_user"));
         </div>
         <div class="row row-cols-1 row-cols-md-3 g-4">
             <?php 
-            $query = mysqli_query($db, "SELECT *, ROUND(a.DISCOUNT) 'DISCOUNT', a.ID_PRODUCT FROM product a JOIN category_product b ON a.id_product = b.id_product WHERE id_category = $id");
+            $query = mysqli_query($db, "SELECT *, a.ID_PRODUCT FROM product a JOIN category_product b ON a.id_product = b.id_product WHERE id_category = $id");
             // $row_id_product = mysqli_fetch_assoc($query);
             
             // var_dump($id_product);
@@ -90,6 +94,7 @@ $user = mysqli_fetch_assoc(mysqli_query($db, "SELECT FIRST_NAME FROM db_user"));
                     $query_diskon =  mysqli_query($db, "SELECT * FROM product WHERE ID_PRODUCT = '$id_product'");
                     $row_diskon = mysqli_fetch_assoc($query_diskon);
                     $persen_total = $row_diskon['tmp_discount'];
+
             ?>
             <div class="col-lg-2">
                 <div class="col-md-3">
@@ -106,12 +111,12 @@ $user = mysqli_fetch_assoc(mysqli_query($db, "SELECT FIRST_NAME FROM db_user"));
                                             style="font-size: 18px; text-decoration: none !important;">Rp.<?= $diskon ?></span>
                                     </div>
                                 </div>
-                                    <form action="../tambah-cart.php?id=<?= $row['ID_PRODUCT'] ?>" method="post">
+                                    <form action="../tambah-cart.php?id=<?= $id_product ?>" method="post">
                                         <div class="button">
-                                            <!-- <a href="../tambah-cart.php?id=<?= $row['ID_PRODUCT'] ?>"> -->
+                                            <a href="../tambah-cart.php?id=<?= $row['ID_PRODUCT'] ?>">
                                             <button name="hapus_keranjang" type="submit" class="btn btn-danger ps-3 pe-3" style="float: right; margin-top: -10px; margin-left: 10px;">Hapus</button>
                                                 <button name="tmbh_keranjang" type="submit" class="btn btn-primary ps-3 pe-3" style="float: right; margin-top: -10px;">Beli</button>
-                                            <!-- </a> -->
+                                            </a>
                                         </div>
                                     </form>
                                 <div class="badge bg-primary text-wrap ml-auto" >

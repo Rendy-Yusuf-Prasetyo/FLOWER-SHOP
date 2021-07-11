@@ -1,16 +1,66 @@
 <?php 
 include "config.php";
-
 $id = $_GET['id_cart'];
 $query = mysqli_fetch_assoc(mysqli_query($db, "SELECT * FROM CART WHERE ID_CART = '$id'"));
 // echo "HARGA". $query['PRICE'];
-  if (isset($_POST['submit'])) {
+  // if (isset($_POST['submit'])) {
       $tambah_uang = mysqli_fetch_assoc(mysqli_query($db, "SELECT sum(tmp_price) 'BANYAK' FROM cart_item WHERE ID_CART = '$id'"));
       $uang = $tambah_uang['BANYAK'];
       $tambah_proses = mysqli_query($db, "UPDATE cart SET GRAND_TOTAL = '$uang' WHERE ID_CART = '$id'");
+$query_cart = mysqli_fetch_assoc(mysqli_query($db, "SELECT * FROM cart WHERE ID_CART = '$id'"));
+$query_checkout = mysqli_fetch_assoc(mysqli_query($db, "SELECT * FROM checkout WHERE ID_CART = '$id'"));
 
-  }else{
-    header("Location: Keranjang/index.php");
+  // }else{
+  //   header("Location: Keranjang/index.php");
+  // }
+
+  if (isset($_POST['continue'])) {
+    $nama = $_POST['nama'];
+    $email = $_POST['email'];
+    $address = $_POST['address'];
+    $country = $_POST['country'];
+    $zip = $_POST['zip'];
+    $payment = $_POST['payment'];
+    $name_card = $_POST['name_card'];
+    $card_number = $_POST['card_number'];
+    $expire = $_POST['expire'];
+    $cvv = $_POST['cvv'];
+
+    echo "NAMA = " . $nama;
+    echo "<br> email = " . $email;
+    echo "<br> address = " . $address;
+    echo "<br> country = " . $country;
+    echo "<br> zip = " .  $zip;
+    echo "<br> payment = " . $payment;
+    echo "<br> name_card = " . $name_card;
+    echo "<br> card number = " . $card_number;
+    echo "<br> expire = " . $expire;
+    echo "<br> cvv = " . $cvv;
+
+    if ($query_checkout['ID_CART'] != "") {
+
+      // $query_cek_1 = mysqli_query($db, "INSERT INTO checkout VALUES(10001, '$nama', '$address', '$country', '$payment', '$name_card', '$card_number', '$expire', '$cvv', '$id')");
+      $query_cek_1 = mysqli_query($db, "INSERT INTO `checkout` (`ID_CHECKOUT`, `NAME`, `ADDRESS`, `COUNTRY`, `PAYMENT`, `NAME_CARD`, `NUMBER_CARD`, `EXPIRE`, `CVV`, `ID_CART`) VALUES (10001, '$nama', '$address', '$country', '$payment', '$name_card', '$card_number', '$expire', '$cvv', '$id')");
+      echo "
+      <script>
+        alert('Pembelian Selesai, Kembali ke HOME');
+      </script>
+    ";
+    
+    mysqli_query($db, "UPDATE cart SET status = 'selesai' WHERE ID_CART = '$id'");
+      header("Location: Homepage/index.php");
+    }elseif($query_checkout['ID_CART'] == ""){
+      $query_cek_1 = mysqli_query($db, "INSERT INTO `checkout` (`ID_CHECKOUT`, `NAME`, `ADDRESS`, `COUNTRY`, `PAYMENT`, `NAME_CARD`, `NUMBER_CARD`, `EXPIRE`, `CVV`, `ID_CART`) VALUES ('', '$nama', '$address', '$country', '$payment', '$name_card', '$card_number', '$expire', '$cvv', '$id')");
+      echo "
+      <script>
+        alert('Data Berhasil di inputkan, Kembali ke HOME');
+      </script>
+    ";
+    mysqli_query($db, "UPDATE cart SET status = 'selesai' WHERE ID_CART = '$id'");
+    header("Location: Homepage/index.php");
+
+    }
+    // echo "ININININININ = ". $query_checkout['ID_CHECKOUT'];
   }
 
 
@@ -35,9 +85,9 @@ $query = mysqli_fetch_assoc(mysqli_query($db, "SELECT * FROM CART WHERE ID_CART 
   <body class="bg-light">
       <div class="container">
         <div class="py-5 text-center">
-          <img class="d-block mx-auto mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+          <!-- <img class="d-block mx-auto mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72"> -->
           <h2>Checkout form</h2>
-          <p class="lead">Below is an example form built entirely with Bootstrap's form controls. Each required form group has a validation state that can be triggered by attempting to submit the form without completing it.</p>
+          <p class="lead">Masukan Data diri anda untuk dilakukan pengiriman menuju ke tempat yang sesuai dengan data yang anda inputkan.</p>
         </div>
 
         <div class="row">
@@ -167,18 +217,13 @@ $query = mysqli_fetch_assoc(mysqli_query($db, "SELECT * FROM CART WHERE ID_CART 
                 </div>
               </div>
               <hr class="mb-4">
-              <button class="btn btn-primary btn-lg btn-block" name="submit" type="submit">Continue to checkout</button>
+              <button class="btn btn-primary btn-lg btn-block" name="continue" type="submit">Continue to checkout</button>
             </form>
           </div>
         </div>
 
         <footer class="my-5 pt-5 text-muted text-center text-small">
-          <p class="mb-1">&copy; 2017-2018 Company Name</p>
-          <ul class="list-inline">
-            <li class="list-inline-item"><a href="#">Privacy</a></li>
-            <li class="list-inline-item"><a href="#">Terms</a></li>
-            <li class="list-inline-item"><a href="#">Support</a></li>
-          </ul>
+          <p class="mb-1">&copy; 2021 Rens Corporation</p>
         </footer>
       </div>
   </body>
