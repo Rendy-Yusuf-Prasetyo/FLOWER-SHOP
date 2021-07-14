@@ -67,7 +67,7 @@ FROM cart b JOIN db_user a ON a.ID_USER = b.ID_USER WHERE a.ID_USER = '$id_user'
         <div style="position:relative; left:300px; top:2px;">
             <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);"
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="../Homepage/index.html">Home</a></li>
+                    <li class="breadcrumb-item"><a href="../Homepage/index.php">Home</a></li>
                     <li class="breadcrumb-item active" aria-current="page"><?= $row_nama['NAME'] ?></li>
                 </ol>
             </nav>

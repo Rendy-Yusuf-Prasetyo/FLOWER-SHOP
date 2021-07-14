@@ -95,7 +95,7 @@ if (isset($_POST['tambah'])) {
 <body style="overflow-x: hidden;">
     <nav class="navbar navbar-light bg-light">
         <div class="container-fluid bg1">
-            <img src="./asset/icon/logo.jpeg" alt="" class="align-self-center rounded-circle" width="100px"
+            <img src="../logo.png" alt="ini gambar" class="align-self-center rounded-circle" width="100px"
                 height="100px" style="margin: 0,1% 0; position:relative; left:200px;">
             <form class="d-flex" style="position:relative; right:80px">
                 <input class="form-control me-2" type="Cari Disini" placeholder="Cari Disini" aria-label="Cari">
@@ -104,7 +104,7 @@ if (isset($_POST['tambah'])) {
                     style="margin-left: 20px; width:25px; height:25px;">
                 <i class="bx bx-chevron-right"></i> <a href="#" style="margin-left: 10px;"> Keranjang</a>
                 <p style="margin-left: 30px;"> |</p>
-                <img src="./asset/icon/user.jpeg" alt="" class="image"
+                <img src="../logo.png" alt="" class="image"
                     style="margin-left: 20px; width:25px; height:25px;">
                 <i class="bx bx-chevron-right"></i> <a href="#" style="margin-left: 10px;"><?= $user['FIRST_NAME'] ?></a>
                 <p style="margin-left: 30px;"> |</p>
@@ -135,7 +135,7 @@ if (isset($_POST['tambah'])) {
             <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);"
                 aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="../Homepage/index.html">Home</a></li>
+                    <li class="breadcrumb-item"><a href="../Homepage/index.php">Home</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Cart</li>
                 </ol>
             </nav>

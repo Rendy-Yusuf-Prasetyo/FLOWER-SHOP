@@ -16,8 +16,7 @@
                 break;
             }
         }
-        // mysqli_query($db, "INSERT INTO cart VALUES('', '$user', '', '', '', '', 'berjalan')");
-        // break;
+
         if (isset($_POST['tmbh_keranjang'])) {
             $id = $_GET['id'];
             echo "ID_PRODUK = " . $id;
@@ -56,7 +55,7 @@
                     $ongkir = $total_harga/0.01;
                     echo "<br> BIAYA ONGKIR = " . $ongkir;
                     mysqli_query($db, "UPDATE cart SET PROMO = 'COBAAJA', PRICE = '$price', `DELIVERY_CHARGE` = 5000, `GRAND_TOTAL` = '$total_harga' WHERE `cart`.`ID_CART` = '$id_cart'");
-                    // header("Location: Keranjang/index.php");
+                    header("Location: Keranjang/index.php");
                     $query_cek_cart_item = mysqli_query($db, "SELECT a.ID_PRODUCT FROM cart_item a JOIN cart b ON a.ID_CART = b.ID_CART WHERE status = 'berjalan'");
                     
                     while($row_cek_cart_item = mysqli_fetch_assoc($query_cek_cart_item)){
@@ -85,11 +84,11 @@
                         mysqli_query($db, "INSERT INTO cart_item VALUES (5001, '$id_cart', '$id', '$price_product', '$diskon', '$quantity', '')");
                         echo " <br> ID_BARANG JADI = " . $row_cek_cart_item['ID_PRODUCT'];
                         echo "<header> SUKSES UPDATE";
-                        // header("Location: Keranjang/index.php");
+                        header("Location: Keranjang/index.php");
                     }
                     else{
                         echo "<H5> GAGAL UPDATE";
-                        // header("Location: /keranjang.index.php");
+                        header("Location: keranjang/index.php");
                     }
                 }else{
                     $query_product = mysqli_query($db, "SELECT * FROM product WHERE ID_PRODUCT = '$id'");
@@ -97,14 +96,7 @@
                     $price_product = $row_produk['PRICE'];
                     $diskon = $row_produk['DISCOUNT'];
                     echo "<br> HARGA_PRODUK = " . $price_product;
-                    // $query_berjalan_akhir = mysqli_query($db, "SELECT c.ID_CART, c.PRICE, c.DELIVERY_CHARGE, c.GRAND_TOTAL 
-                    // FROM cart_item d 
-                    // JOIN product b ON d.ID_PRODUCT = b.ID_PRODUCT 
-                    // JOIN cart c ON d.ID_CART = c.ID_CART 
-                    // JOIN db_user a ON c.ID_USER = a.ID_USER");
-                    // $row_berjalan_akhir = mysqli_fetch_assoc($query_berjalan_akhir);
                     $cek_id_cart_berjalan = mysqli_fetch_assoc(mysqli_query($db, "SELECT * FROM cart WHERE status = 'berjalan'"));
-                    // $cek_id_cart_berjalan = mysqli_fetch_assoc(mysqli_query($db, "SELECT b.ID_CART FROM cart_item a JOIN cart b ON a.ID_CART = b.ID_CART WHERE status = 'berjalan'"));
                     $id_cart_null = $cek_id_cart_berjalan['ID_CART'];
                     $quantity = 1;
                     $query = mysqli_query($db, "INSERT INTO cart_item VALUES ('', '$id_cart_null', '$id', '$price_product', '$diskon', '$quantity', '')");
@@ -115,13 +107,12 @@
                         </script>
                         ";
                     }
+                    header("Location: keranjang/index.php");
                 }
                 
             }
         }elseif(isset($_POST['hapus_keranjang'])){
             $id = $_GET['id'];
-            // $query = mysqli_query($db, "DELETE FROM category_product WHERE ID_PRODUCT = '$id'");
-            // $query2 = mysqli_query($db, "DELETE FROM product WHERE ID_PRODUCT = '$id'");
             if ($query2) {
                 echo "
                     <script>
@@ -135,7 +126,7 @@
                         alert('Hapus CATEGORY Sukses');
                     </script>
                 ";
-                // header("Location: Homepage/index.php");
+                header("Location: Homepage/index.php");
             }else{
                 echo "
                     <script>
@@ -151,13 +142,4 @@
         ";
         }
         // header("Location: Homepage/index.php");
-        
-
-        // }
-
-
-        
-    // }
-
-
 ?>
