@@ -1,5 +1,5 @@
 <?php 
-include "../bima/config.php";
+include "config.php";
 
 $query_user = mysqli_query($db, "SELECT FIRST_NAME FROM db_user");
         $row = mysqli_fetch_assoc($query_user);
@@ -81,7 +81,7 @@ $query_user = mysqli_query($db, "SELECT FIRST_NAME FROM db_user");
         $row_query_update_barang_baru = mysqli_fetch_assoc($query_update_barang_baru);
         $id_barang = $row_query_update_barang_baru['ID_PRODUCT'];
         $query =  mysqli_query($db, "INSERT INTO category_product VALUES('', '$id','$id_barang')");
-        header("Location: Homepage/index.php");
+        header("Location: homepage.php");
         // $row_id_barang = mysqli_fetch_assoc($cek_id_barang);
 
         // mysqli_query($db, "INSERT INTO BARANG VALUES('', '$nama', '$harga', '$stok', '$deksripsi')");
@@ -113,7 +113,7 @@ $query_user = mysqli_query($db, "SELECT FIRST_NAME FROM db_user");
 <body>
 <nav class="navbar navbar-light bg-light">
     <div class="container-fluid bg1">
-      <img src="./asset/icon/logo.jpeg" alt="" class="align-self-center rounded-circle" width="100px" height="100px"
+      <img src="logo.png" alt="" class="align-self-center rounded-circle" width="100px" height="100px"
         style="margin: 0,1% 0; position:relative; left:200px;">
       <form class="d-flex" style="position:relative; right:80px">
         
@@ -135,10 +135,10 @@ $query_user = mysqli_query($db, "SELECT FIRST_NAME FROM db_user");
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav mx-auto">
-          <a class="nav-link active" aria-current="page" href="../bima/Homepage/index.php">HOME</a>
-          <a class="nav-link active" aria-current="page" href="../bima/PRODUCT/index.php?id=3001">BUNGA POT BESAR</a>
-          <a class="nav-link active" aria-current="page" href="../bima/PRODUCT/index.php?id=3002">BUNGA POT KECIL</a>
-          <a class="nav-link active" aria-current="page" href="../bima/PRODUCT/index.php?id=3003">POHON HIAS</a>
+          <a class="nav-link active" aria-current="page" href="../UAS/Homepage/index.php">HOME</a>
+          <a class="nav-link active" aria-current="page" href="../UAS/PRODUCT/index.php?id=3001">BUNGA POT BESAR</a>
+          <a class="nav-link active" aria-current="page" href="../UAS/PRODUCT/index.php?id=3002">BUNGA POT KECIL</a>
+          <a class="nav-link active" aria-current="page" href="../UASPRODUCT/index.php?id=3003">POHON HIAS</a>
         </div>
       </div>
     </div>
@@ -148,23 +148,23 @@ $query_user = mysqli_query($db, "SELECT FIRST_NAME FROM db_user");
             <form action="" method="post" enctype="multipart/form-data">
                 <div class="mb-3 mt-3">
                     <label for="nama">Nama</label>
-                    <input type="text" class="form-control" name="nama" id="nama" required>
+                    <input type="text" class="form-control" name="nama" required>
                 </div>
                 <div class="mb-3">
                     <label for="brand">Brand</label>
-                    <input type="text" class="form-control" name="brand" id="brand" required>
+                    <input type="text" class="form-control" name="brand" required>
                 </div>
                 <div class="mb-3">
                     <label for="price">Price</label>
-                    <input type="text" class="form-control" name="price" id="price" required>
+                    <input type="text" class="form-control" name="price" required>
                 </div>
                 <div class="mb-3">
                     <label for="discount">Discount</label>
-                    <input type="text" class="form-control" name="discount" id="discount" required>
+                    <input type="text" class="form-control" name="discount" required>
                 </div>
                 <div class="mb-3">
                     <label for="quantity">Quantity</label>
-                    <input type="text" class="form-control" name="quantity" id="quantity" required>
+                    <input type="text" class="form-control" name="quantity" required>
                 </div>
                 <div class="mb-3">
                     <!-- <label class="input-group-text" for="inputGroupFile01">Upload Gambar</label> -->
@@ -173,7 +173,7 @@ $query_user = mysqli_query($db, "SELECT FIRST_NAME FROM db_user");
                 </div>
                 <div class="mb-3">
                     <label for="quantity">Deskripsi Produk</label>
-                    <input type="text" class="form-control" name="deskripsi" id="quantity" style="padding-bottom: 80px;" required>
+                    <input type="text" class="form-control" name="deskripsi" style="padding-bottom: 80px;" required>
                 </div>
                 <div class="mb-3">
                     <button type="submit" name="simpan" class="btn btn-primary">simpan</button>

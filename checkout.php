@@ -76,6 +76,7 @@ $query_checkout = mysqli_fetch_assoc(mysqli_query($db, "SELECT * FROM checkout W
     <link rel="stylesheet" href="bootstrap/plugin/css/datepicker.css"/>
     <script src="bootstrap/js/jquery-3.4.1.js"></script>
     <script src="bootstrap/plugin/js/bootstrap-datepicker.js"></script>
+    <link rel="stylesheet" href="asset/css/text.css">
     <title>Checkout example for Bootstrap</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
@@ -85,6 +86,7 @@ $query_checkout = mysqli_fetch_assoc(mysqli_query($db, "SELECT * FROM checkout W
   <body class="bg-light">
       <div class="container">
         <div class="py-5 text-center">
+          <img src="logo.png" alt="Ini logo" width="72" height="72">
           <!-- <img class="d-block mx-auto mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72"> -->
           <h2>Checkout form</h2>
           <p class="lead">Masukan Data diri anda untuk dilakukan pengiriman menuju ke tempat yang sesuai dengan data yang anda inputkan.</p>

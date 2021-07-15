@@ -84,11 +84,11 @@
                         mysqli_query($db, "INSERT INTO cart_item VALUES (5001, '$id_cart', '$id', '$price_product', '$diskon', '$quantity', '')");
                         echo " <br> ID_BARANG JADI = " . $row_cek_cart_item['ID_PRODUCT'];
                         echo "<header> SUKSES UPDATE";
-                        header("Location: Keranjang/index.php");
+                        header("Location: keranjang.php");
                     }
                     else{
                         echo "<H5> GAGAL UPDATE";
-                        header("Location: keranjang/index.php");
+                        header("Location: keranjang.php");
                     }
                 }else{
                     $query_product = mysqli_query($db, "SELECT * FROM product WHERE ID_PRODUCT = '$id'");
@@ -107,12 +107,14 @@
                         </script>
                         ";
                     }
-                    header("Location: keranjang/index.php");
+                    header("Location: keranjang.php");
                 }
                 
             }
         }elseif(isset($_POST['hapus_keranjang'])){
             $id = $_GET['id'];
+            $query = mysqli_query($db, "DELETE FROM category_product WHERE ID_PRODUCT = '$id'");
+            $query2 = mysqli_query($db, "DELETE FROM product WHERE ID_PRODUCT = '$id'");
             if ($query2) {
                 echo "
                     <script>
@@ -126,7 +128,7 @@
                         alert('Hapus CATEGORY Sukses');
                     </script>
                 ";
-                header("Location: Homepage/index.php");
+                // header("Location: homepage.php");
             }else{
                 echo "
                     <script>

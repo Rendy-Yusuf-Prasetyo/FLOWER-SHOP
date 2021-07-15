@@ -1,3 +1,81 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap");
+
+a{
+    text-decoration: none;
+    color: black;
+}
+
+i{
+    color: black;
+    text-decoration: none;
+}
+
+.footer{
+    /* background-color: #E8E8E8; */
+    /* background-color: black; */
+}
+
+.nav-link:hover{
+    background-color: red;
+}
+
+
+
+* {
+    padding: 0;
+    margin: 0;
+    font-family: "Open Sans", sans-serif;
+}
+
+.sidebar {
+    width: 16%;
+    height: 100%;
+    background-color: red;
+}
+
+.navbar {
+    width: 84%;
+    height: 12vh;
+    left: 16%;
+    padding-left: 1%;
+}
+.main-section {
+    margin-left: 16%;
+    height: 88vh;
+    padding: 2%;
+    background-color: white;
+    overflow: auto;
+}
+
+.garis {
+    background-color: black;
+    height: 2px;
+    margin-top: -5%;
+}
+
+.list-sidebar .navbar-nav {
+    margin: 5% 0 0 0;
+    padding: 0;
+}
+
+.list-sidebar ul a {
+    text-decoration: none;
+    color: black;
+}
+
+.list-sidebar ul a li {
+    list-style: none;
+    padding: 5%;
+    color: black;
+    font-weight: bold;
+}
+
+.list-sidebar ul a:hover {
+    background-color: #b5b2b2;
+    color: white;
+}
+
+
 .custom1{
     position: relative;
 }
@@ -15,6 +93,12 @@
     bottom: 50px;
 }
 
+.bg1 {
+    background: #F0F0F0;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .bg2 {
     background: #e8e8e8;
 }
@@ -24,14 +108,11 @@
     text-decoration: none;
 }
 
-.footer{
-    background-color: #E8E8E8;
-}
 
-a {
-    color: black;
+/* .tulisan-footer li{
     text-decoration: none;
-}
+} */
+
 
 .bank {
     right: relative;
